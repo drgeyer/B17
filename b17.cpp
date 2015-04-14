@@ -3,11 +3,15 @@
 
 using namespace std;
 
+//The 4096-word memory array
+int memory[0xFFF];
+
+//Author: Grant Hill
+//Parses object file and places values in memory
 int main(int argc, char *argv[])
 {
 	ifstream obj;
-	int startAddress, toRead;
-
+	int startAddress, toRead, nextVal;
 
 	obj.open(argv[1]);
 
@@ -19,7 +23,11 @@ int main(int argc, char *argv[])
 
 	obj >> hex >> startAddress >> toRead;
 
-
+	for(int i = 0; i < toRead; i++)
+		{
+			obj >> nextVal;
+			memory[startAddress + i] = nextVal;
+		}
 
 	return 0;
 }
