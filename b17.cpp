@@ -25,10 +25,11 @@ int main(int argc, char *argv[])
 
 	for(int i = 0; i < toRead; i++)
 		{
-			obj >> nextVal;
+			obj >> hex >> nextVal;
 			memory[startAddress + i] = nextVal;
 		}
 
 	return 0;
 }
 
+//executeAt function?
