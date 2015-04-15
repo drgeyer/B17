@@ -6,6 +6,9 @@ using namespace std;
 //The 4096-word memory array
 int memory[0xFFF];
 
+//Declare registers
+int acc = 0, x0 = 0, x1 = 0, x2 = 0, x3 = 0;
+
 //Author: Grant Hill
 //Parses object file and places values in memory
 int main(int argc, char *argv[])
