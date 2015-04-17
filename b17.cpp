@@ -10,6 +10,16 @@ struct instruc //Struct to hold the parsed instruction
 	int am;
 };
 
+//Values for addressing mode constants.
+//Can go in separate .h if needed.
+const int directam = 0;
+const int immedam = 1;
+const int indexam = 2;
+const int indirectam = 4;
+const int indexdirectam = 6;
+
+
+
 //The 4096-word memory array
 int memory[0xFFF] = {0}; //Init to zero
 
