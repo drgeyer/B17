@@ -28,9 +28,13 @@ void NOP_Instr(instruc instr_data)
 	
 }
 
-void LD_Instr(instruc instr_data)
+void LD_Instr(void)
 {
+	instruc instr_data = parseInstruc(memory[IC]);
+	//Do the operation 
 	
+	//print the trace of what the instruction does AFTER it has been executed
+	trace("LD", instr_data)
 }
 
 void ST_Instr(instruc instr_data)
@@ -98,7 +102,12 @@ void JP_Instr(instruc instr_data)
 	
 }
 
-void Unimplemented_Instr(instruc instr_data)
+void UnimplementedAddressing_Mode(instruc instr_data)
+{
+	
+}
+
+void IllegalAddressing_Mode(instruc instr_data)
 {
 	
 }

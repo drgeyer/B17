@@ -4,8 +4,6 @@
 #include "instruc.h"
 #include "switch.cpp";
 
-using namespace std;
-
 
 //Values for addressing mode constants.
 //Can go in separate .h if needed.
