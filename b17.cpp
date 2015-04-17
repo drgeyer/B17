@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 	//Print out memory starting at start address
 	while(memory[nextAddress] != 0)
 	{
-		cout << nextAddress << " " <<  memory[nextAddress] << " ";
+		cout << hex << nextAddress << " " << hex <<  memory[nextAddress] << " ";
 		nextAddress++;
 	}
 
