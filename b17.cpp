@@ -1,14 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include "instruc.h"
 
 using namespace std;
-
-struct instruc //Struct to hold the parsed instruction
-{
-	int addr;
-	int op;
-	int am;
-};
 
 //Values for addressing mode constants.
 //Can go in separate .h if needed.

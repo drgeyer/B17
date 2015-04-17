@@ -1,3 +1,5 @@
+#include "instruc.h"
+
 using namespace std;
 //this file requires access to the memory space + all registers
 extern int memory[0xFFF];
