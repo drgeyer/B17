@@ -3,11 +3,19 @@
 
 using namespace std;
 
-//The 4096-word memory array
-int memory[0xFFF];
+struct instruc //Struct to hold the parsed instruction
+{
+	int addr;
+	int op;
+	int am;
+};
 
-//Declare registers
-int acc = 0, x0 = 0, x1 = 0, x2 = 0, x3 = 0;
+//The 4096-word memory array
+int memory[0xFFF] = {0}; //Init to zero
+
+
+
+instruc parseInstruc(int instruction);
 
 //Author: Grant Hill
 //Parses object file and places values in memory
@@ -36,3 +44,24 @@ int main(int argc, char *argv[])
 }
 
 //executeAt function?
+
+
+//Author: Grant Hill
+//Parses the instuction from memory into address, opcode, and mode fields
+instruc parseInstruc(int instruction);
+{
+	instruc struction; //Allocate a structure to hold the extracted parts
+
+	//Declare bitmasks
+	int addmodemask = 63; //111111 in binary
+	int opmask = 0xFC0;
+	int addrmask = 0xFFF000
+
+	struction.am = addmodemask & instruction;
+	struction.opmask = opmask & instruction;
+	struction.opmask = struction.opmask >> 6; //Shift right after the mask is applied
+	struction.addr = addrmask & instruction;
+	struction.addr = struction.addr >> 12; 
+
+	return struction;
+}
