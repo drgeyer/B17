@@ -1,5 +1,9 @@
 #ifndef INSTRUC_H
 #define INSTRUC_H
+#include <iostream>
+#include <fstream>
+
+using namespace std;
 
 struct instruc //Struct to hold the parsed instruction
 {

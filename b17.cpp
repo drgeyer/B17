@@ -1,9 +1,5 @@
-#include <iostream>
-#include <fstream>
 #include "instruc.h"
 #include "switch.cpp";
-
-using namespace std;
 
 
 //Values for addressing mode constants.
