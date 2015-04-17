@@ -16,11 +16,12 @@ const int directam = 0;
 const int immedam = 1;
 const int indexam = 2;
 const int indirectam = 4;
-const int indexdirectam = 6;
+const int indexindirectam = 6;
 
 //The 4096-word memory array
 int memory[0xFFF] = {0}; //Init to zero
 
+void memstep(int startAddress);
 instruc parseInstruc(int instruction);
 
 //Author: Grant Hill
@@ -56,12 +57,6 @@ int main(int argc, char *argv[])
 
 	//The nextAddress should have the address to start at.
 
-	//Print out memory starting at start address
-	while(memory[nextAddress] != 0)
-	{
-		cout << hex << nextAddress << " " << hex <<  memory[nextAddress] << " ";
-		nextAddress++;
-	}
 
 	return 0;
 }
@@ -87,4 +82,19 @@ instruc parseInstruc(int instruction)
 	struction.addr = struction.addr >> 12; 
 
 	return struction;
+}
+
+//Author: Grant Hill
+//Steps through memory and prints out hex values. Used for testing the object
+//file parser.
+void memstep(int startAddress)
+{
+
+	//Print out memory starting at start address
+	while(memory[nextAddress] != 0)
+	{
+		cout << hex << nextAddress << " " << hex <<  memory[nextAddress] << " ";
+		nextAddress++;
+	}
+
 }
