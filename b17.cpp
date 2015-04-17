@@ -18,12 +18,8 @@ const int indexam = 2;
 const int indirectam = 4;
 const int indexdirectam = 6;
 
-
-
 //The 4096-word memory array
 int memory[0xFFF] = {0}; //Init to zero
-
-
 
 instruc parseInstruc(int instruction);
 
@@ -32,7 +28,7 @@ instruc parseInstruc(int instruction);
 int main(int argc, char *argv[])
 {
 	ifstream obj;
-	int startAddress, nextAddress, toRead, nextVal;
+	int nextAddress, toRead, nextVal;
 
 	obj.open(argv[1]);
 
@@ -46,7 +42,6 @@ int main(int argc, char *argv[])
 //This loop should read the object file into memory.	
 	while(obj >> hex >> nextAddress)
 	{
-
 		if(obj >> hex >> toRead)
 		{
 
@@ -60,6 +55,13 @@ int main(int argc, char *argv[])
 	}
 
 	//The nextAddress should have the address to start at.
+
+	//Print out memory starting at start address
+	while(memory[nextAddress] != 0)
+	{
+		cout << nextAddress << " " <<  memory[nextAddress] << " ";
+		nextAddress++;
+	}
 
 	return 0;
 }
