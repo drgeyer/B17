@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 	while(obj >> hex >> nextAddress)
 	{
 
-		if(!obj.eof())
+		if(obj >> hex >> toRead)
 		{
 
 			for(int i = 0; i < toRead; i++)
