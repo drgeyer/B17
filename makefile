@@ -3,7 +3,7 @@ CC=g++
 CFLAGS=-c -g -Wall
 
 all: globals instructions switch main
-	g++ -o b17 switch.o globals.o instructions.o b17.o
+	g++ -o b17 switch.o globals.o instructions.o b17.o instruc.h
 
 globals:
 	${CC} ${CFLAGS} Globals.cpp -o globals.o
