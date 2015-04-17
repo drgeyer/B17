@@ -54,18 +54,18 @@ do{
 
 //Author: Grant Hill
 //Parses the instuction from memory into address, opcode, and mode fields
-instruc parseInstruc(int instruction);
+instruc parseInstruc(int instruction)
 {
 	instruc struction; //Allocate a structure to hold the extracted parts
 
 	//Declare bitmasks
 	int addmodemask = 63; //111111 in binary
 	int opmask = 0xFC0;
-	int addrmask = 0xFFF000
+	int addrmask = 0xFFF000;
 
 	struction.am = addmodemask & instruction;
-	struction.opmask = opmask & instruction;
-	struction.opmask = struction.opmask >> 6; //Shift right after the mask is applied
+	struction.op = opmask & instruction;
+	struction.op = struction.op >> 6; //Shift right after the mask is applied
 	struction.addr = addrmask & instruction;
 	struction.addr = struction.addr >> 12; 
 
