@@ -3,6 +3,8 @@
 
 using namespace std;
 
+#include "switch.cpp";
+
 struct instruc //Struct to hold the parsed instruction
 {
 	int addr;
