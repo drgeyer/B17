@@ -1,4 +1,5 @@
 #include "instruc.h"
+#include "instructions.cpp"
 
 void switchFunction( int oppCode );
 
@@ -30,28 +31,28 @@ void switchFunction( int oppCode )
 	switch( oppCode )
 	{
 	case HALT:
-		trace( oppCode );
+		trace( "HALT );
 		cout << "Machine Halted - HALT instruction executed" << endl;
 		exit(0);
 		break;
 	case NOP:
-		trace( oppCode );
+		trace( "NOP" );
 		break;
 	case LD:
 	case ST:
 	case EM:
 	case LDX:
-		trace( oppCode );
+		trace( "NOP" );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case STX:
-		trace( oppCode );
+		trace( "NOP" );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case EMX:
-		trace( oppCode );
+		trace( "NOP" );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
@@ -63,17 +64,17 @@ void switchFunction( int oppCode )
 	case OR:
 	case XOR:
 	case ADDX:
-		trace( oppCode );
+		trace( "NOP" );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case SUBX:
-		trace( oppCode );
+		trace( "NOP" );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case CLRX:
-		trace( oppCode );
+		trace( "NOP" );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
@@ -82,7 +83,7 @@ void switchFunction( int oppCode )
 	case JN:
 	case JP:
 	default:
-		trace( oppCode );
+		trace( "????" );
 		cout << "Machine Halted - undefined opcode" << endl;
 		exit(2);
 		break;
