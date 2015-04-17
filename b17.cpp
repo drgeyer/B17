@@ -22,7 +22,7 @@ instruc parseInstruc(int instruction);
 int main(int argc, char *argv[])
 {
 	ifstream obj;
-	int startAddress, toRead, nextVal;
+	int startAddress, nextAddress, toRead, nextVal;
 
 	obj.open(argv[1]);
 
@@ -33,12 +33,18 @@ int main(int argc, char *argv[])
 	}
 
 	obj >> hex >> startAddress >> toRead;
+	
+	nextAddress = startAddress;
+//This loop should read the object file into memory.	
+do{
 
 	for(int i = 0; i < toRead; i++)
 		{
 			obj >> hex >> nextVal;
-			memory[startAddress + i] = nextVal;
+			memory[nextAddress + i] = nextVal;
 		}
+
+	}while(obj >> hex >> nextAddress);
 
 	return 0;
 }
