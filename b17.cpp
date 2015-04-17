@@ -91,10 +91,10 @@ void memstep(int startAddress)
 {
 
 	//Print out memory starting at start address
-	while(memory[nextAddress] != 0)
+	while(memory[startAddress] != 0)
 	{
-		cout << hex << nextAddress << " " << hex <<  memory[nextAddress] << " ";
-		nextAddress++;
+		cout << hex << startAddress << " " << hex <<  memory[startAddress] << " ";
+		startAddress++;
 	}
 
 }
