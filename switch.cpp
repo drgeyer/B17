@@ -1,7 +1,4 @@
-#include <iostream>
-#include <fstream>
-
-using namespace std;
+#include "instruc.h"
 
 void switchFunction( int oppCode );
 
