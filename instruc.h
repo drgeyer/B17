@@ -13,4 +13,4 @@ struct instruc //Struct to hold the parsed instruction
 	int am;
 };
 
-#edif /* INSTRUC_H */
+#endif /* INSTRUC_H */
