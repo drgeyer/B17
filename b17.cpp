@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include "instruc.h"
 #include "switch.cpp";
@@ -13,6 +14,8 @@ const int immedam = 1;
 const int indexam = 2;
 const int indirectam = 4;
 const int indexindirectam = 6;
+
+extern int IC, AC, X0, X1, X2, X3;
 
 //The 4096-word memory array
 int memory[0xFFF] = {0}; //Init to zero
@@ -92,5 +95,29 @@ void memstep(int startAddress)
 		cout << hex << startAddress << " " << hex <<  memory[startAddress] << " ";
 		startAddress++;
 	}
+
+}
+
+void trace(string mnemonic, instruc instruction, int EA)
+{
+
+
+	cout << hex << instruction.addr << ":  " << memory[IC] << "  " << mnemonic
+		<< "\t";
+
+	if(instruction.am = immedam) //If the addressing mode is immediate, print IMM
+		cout << "IMM";
+	else if (instruction.op == 0x0 || instruction.op == 0x1 || instruction.op == 0x18
+		 || instruction.op == 0x19 || instruction.op == 0x1A || instructiom.op == 0x22
+		  || instruction.op == 0x23 || instuction.op == 0x28 || instruction.op == 0x29
+			 || instruction.op == 0x2A)
+		cout << "   ";
+	else
+		cout << hex << EA;
+
+
+	cout << "  " << "AC[" << hex << setw(6) << AC << "] X0[" << setw(3) << X0 <<
+		"] X1[" << X1 << "] X2[" << X2 << "] X3[" << X3 << "]" << endl;
+
 
 }
