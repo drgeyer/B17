@@ -42,19 +42,24 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	obj >> hex >> startAddress >> toRead;
-	
-	nextAddress = startAddress;
+
 //This loop should read the object file into memory.	
-do{
+	while(obj >> hex >> nextAddress)
+	{
 
-	for(int i = 0; i < toRead; i++)
+		if(!obj.eof())
 		{
-			obj >> hex >> nextVal;
-			memory[nextAddress + i] = nextVal;
-		}
 
-	}while(obj >> hex >> nextAddress);
+			for(int i = 0; i < toRead; i++)
+				{
+					obj >> hex >> nextVal;
+					memory[nextAddress + i] = nextVal;
+				}
+
+		}
+	}
+
+	//The nextAddress should have the address to start at.
 
 	return 0;
 }
