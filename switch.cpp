@@ -1,4 +1,7 @@
+#include <iostream>
+#include <fstream>
 
+using namespace std;
 
 void switchFunction( int oppCode );
 
@@ -30,13 +33,31 @@ void switchFunction( int oppCode )
 	switch( oppCode )
 	{
 	case HALT:
+		trace( oppCode );
+		cout << "Machine Halted - HALT instruction executed" << endl;
+		exit(0);
+		break;
 	case NOP:
+		trace( oppCode );
+		break;
 	case LD:
 	case ST:
 	case EM:
 	case LDX:
+		trace( oppCode );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
 	case STX:
+		trace( oppCode );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
 	case EMX:
+		trace( oppCode );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
 	case ADD:
 	case SUB:
 	case CLR:
@@ -45,11 +66,28 @@ void switchFunction( int oppCode )
 	case OR:
 	case XOR:
 	case ADDX:
+		trace( oppCode );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
 	case SUBX:
+		trace( oppCode );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
 	case CLRX:
+		trace( oppCode );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
 	case J:
 	case JZ:
 	case JN:
 	case JP:
+	default:
+		trace( oppCode );
+		cout << "Machine Halted - undefined opcode" << endl;
+		exit(2);
+		break;
 	}
 }
