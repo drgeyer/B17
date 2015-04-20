@@ -6,11 +6,6 @@
 
 
 
-//The 4096-word memory array
-int memory[0xFFF] = {0}; //Init to zero
-
-void memstep(int startAddress);
-instruc parseInstruc(int instruction);
 
 //Author: Grant Hill
 //Parses object file and places values in memory

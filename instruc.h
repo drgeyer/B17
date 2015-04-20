@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -13,6 +14,9 @@ struct instruc //Struct to hold the parsed instruction
 	int am;
 };
 
+
+//The 4096-word memory array
+int memory[0xFFF] = {0}; //Init to zero
 
 //Values for addressing mode constants.
 const int directam = 0;
@@ -30,11 +34,11 @@ void trace(string mnemonic, instruc instruction, int EA)
 	cout << hex << instruction.addr << ":  " << memory[IC] << "  " << mnemonic
 		<< "\t";
 
-	if(instruction.am = immedam) //If the addressing mode is immediate, print IMM
+	if(instruction.am == immedam) //If the addressing mode is immediate, print IMM
 		cout << "IMM";
 	else if (instruction.op == 0x0 || instruction.op == 0x1 || instruction.op == 0x18
-		 || instruction.op == 0x19 || instruction.op == 0x1A || instructiom.op == 0x22
-		  || instruction.op == 0x23 || instuction.op == 0x28 || instruction.op == 0x29
+		 || instruction.op == 0x19 || instruction.op == 0x1A || instruction.op == 0x22
+		  || instruction.op == 0x23 || instruction.op == 0x28 || instruction.op == 0x29
 			 || instruction.op == 0x2A)
 		cout << "   ";
 	else
