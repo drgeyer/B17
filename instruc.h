@@ -14,6 +14,14 @@ struct instruc //Struct to hold the parsed instruction
 };
 
 
+//Values for addressing mode constants.
+const int directam = 0;
+const int immedam = 1;
+const int indexam = 2;
+const int indirectam = 4;
+const int indexindirectam = 6;
+
+extern int IC, AC, X0, X1, X2, X3;
 
 void trace(string mnemonic, instruc instruction, int EA)
 {

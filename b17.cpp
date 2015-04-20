@@ -5,15 +5,6 @@
 #include "switch.cpp";
 
 
-//Values for addressing mode constants.
-//Can go in separate .h if needed.
-const int directam = 0;
-const int immedam = 1;
-const int indexam = 2;
-const int indirectam = 4;
-const int indexindirectam = 6;
-
-extern int IC, AC, X0, X1, X2, X3;
 
 //The 4096-word memory array
 int memory[0xFFF] = {0}; //Init to zero

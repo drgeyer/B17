@@ -31,7 +31,7 @@ void switchFunction( int oppCode )
 	switch( oppCode )
 	{
 	case HALT:
-		trace( "HALT );
+		trace( "HALT" );
 		cout << "Machine Halted - HALT instruction executed" << endl;
 		exit(0);
 		break;
