@@ -1,5 +1,6 @@
 #include "instruc.h"
 
+
 using namespace std;
 //this file requires access to the memory space + all registers
 extern int memory[0xFFF];
@@ -20,12 +21,15 @@ extern int DBUS;
 //pass an instruction with the memory address, indexing mode, and op code
 void HALT_Instr(instruc instr_data)
 {
-	
+	trace( "HALT" );
+	cout << "Machine Halted - HALT instruction executed" << endl;
+	exit(0);
 }
 
 void NOP_Instr(instruc instr_data)
 {
-	
+	trace( "NOP" );
+	return;
 }
 
 void LD_Instr(void)
