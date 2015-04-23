@@ -28,62 +28,91 @@ void switchFunction( int oppCode )
 	const int JZ  = 0x31;
 	const int JN  = 0x32;
 	const int JP  = 0x33;
+
+
+
 	switch( oppCode )
 	{
 	case HALT:
-		trace( "HALT" );
-		cout << "Machine Halted - HALT instruction executed" << endl;
-		exit(0);
+		HALT_Instr( instr_data );
 		break;
 	case NOP:
-		trace( "NOP" );
+		NOP_Instr( instr_data );
 		break;
 	case LD:
+		LD_Instr();
+		break;
 	case ST:
+		ST_Instr( instr_data );
+		break;
 	case EM:
+		EM_Instr( instr_data );
+		break;
 	case LDX:
-		trace( "NOP" );
+		trace( "NOP", instr_data, EA );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case STX:
-		trace( "NOP" );
+		trace( "NOP", instr_data, EA );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case EMX:
-		trace( "NOP" );
+		trace( "NOP", instr_data, EA );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case ADD:
+		ADD_Instr( instr_data );
+		break;
 	case SUB:
+		SUB_Instr( instr_data );
+		break;
 	case CLR:
+		CLR_Instr( instr_data );
+		break;
 	case COM:
+		COM_Instr( instr_data );
+		break;
 	case AND:
+		AND_Instr( instr_data );
+		break;
 	case OR:
+		OR_Instr( instr_data );
+		break;
 	case XOR:
+		XOR_Instr( instr_data );
+		break;
 	case ADDX:
-		trace( "NOP" );
+		trace( "NOP", instr_data, EA );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case SUBX:
-		trace( "NOP" );
+		trace( "NOP", instr_data, EA );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case CLRX:
-		trace( "NOP" );
+		trace( "NOP", instr_data, EA );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case J:
+		J_Instr( instr_data );
+		break;
 	case JZ:
+		JZ_Instr( instr_data );
+		break;
 	case JN:
+		JN_Instr( instr_data );
+		break;
 	case JP:
+		JP_Instr( instr_data );
+		break;
 	default:
-		trace( "????" );
+		trace( "????", instr_data, EA );
 		cout << "Machine Halted - undefined opcode" << endl;
 		exit(2);
 		break;

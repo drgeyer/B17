@@ -21,14 +21,14 @@ extern int DBUS;
 //pass an instruction with the memory address, indexing mode, and op code
 void HALT_Instr(instruc instr_data)
 {
-	trace( "HALT" );
+	trace( "HALT", instr_data, EA );
 	cout << "Machine Halted - HALT instruction executed" << endl;
 	exit(0);
 }
 
 void NOP_Instr(instruc instr_data)
 {
-	trace( "NOP" );
+	trace( "NOP", instr_data, EA );
 	return;
 }
 
@@ -38,7 +38,7 @@ void LD_Instr(void)
 	//Do the operation 
 	
 	//print the trace of what the instruction does AFTER it has been executed
-	trace("LD", instr_data)
+	trace("LD", instr_data, EA);
 }
 
 void ST_Instr(instruc instr_data)
