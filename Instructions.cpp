@@ -1,4 +1,5 @@
 #include "instruc.h"
+using namespace std;
 
 
 using namespace std;
@@ -23,14 +24,14 @@ int not_used = 0;
 //pass an instruction with the memory address, indexing mode, and op code
 void HALT_Instr(instruc instr_data)
 {
-	trace( "HALT", instr_data, EA );
+	trace( "HALT", instr_data );
 	cout << "Machine Halted - HALT instruction executed" << endl;
 	exit(0);
 }
 
 void NOP_Instr(instruc instr_data)
 {
-	trace( "NOP", instr_data, EA );
+	trace( "NOP", instr_data );
 	return;
 }
 
@@ -40,7 +41,7 @@ void LD_Instr(void)
 	//Do the operation 
 	
 	//print the trace of what the instruction does AFTER it has been executed
-	trace("LD", instr_data, EA);
+	trace("LD", instr_data );
 }
 
 void ST_Instr(instruc instr_data)
@@ -127,14 +128,14 @@ void JP_Instr(instruc instr_data)
 
 void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)
 {
-	trace( mnemonic, instr_data, EA );
+	trace( mnemonic, instr_data );
 	cout << "Machine Halted - unimplemented addressing mode";
 	exit( 3 );
 }
 
 void IllegalAddressing_Mode(instruc instr_data, string mnemonic)
 {
-	trace( mnemonic, instr_data, EA );
+	trace( mnemonic, instr_data );
 	cout << "Machine Halted - illegal addressing mode";
 	exit( 4 );
 }
