@@ -49,17 +49,17 @@ void switchFunction( int oppCode )
 		EM_Instr( instr_data );
 		break;
 	case LDX:
-		trace( "NOP", instr_data, EA );
+		trace( "NOP", instr_data );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case STX:
-		trace( "NOP", instr_data, EA );
+		trace( "NOP", instr_data );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case EMX:
-		trace( "NOP", instr_data, EA );
+		trace( "NOP", instr_data );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
@@ -85,17 +85,17 @@ void switchFunction( int oppCode )
 		XOR_Instr( instr_data );
 		break;
 	case ADDX:
-		trace( "NOP", instr_data, EA );
+		trace( "NOP", instr_data );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case SUBX:
-		trace( "NOP", instr_data, EA );
+		trace( "NOP", instr_data );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
 	case CLRX:
-		trace( "NOP", instr_data, EA );
+		trace( "NOP", instr_data );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
@@ -112,7 +112,7 @@ void switchFunction( int oppCode )
 		JP_Instr( instr_data );
 		break;
 	default:
-		trace( "????", instr_data, EA );
+		trace( "????", instr_data );
 		cout << "Machine Halted - undefined opcode" << endl;
 		exit(2);
 		break;

@@ -27,7 +27,7 @@ const int indexindirectam = 6;
 
 extern int IC, AC, X0, X1, X2, X3;
 
-void trace(string mnemonic, instruc instruction, int EA)
+void trace(string mnemonic, instruc instruction)
 {
 
 
@@ -42,7 +42,7 @@ void trace(string mnemonic, instruc instruction, int EA)
 			 || instruction.op == 0x2A)
 		cout << "   ";
 	else
-		cout << hex << EA;
+		cout << hex << instruction.addr;
 
 
 	cout << "  " << "AC[" << hex << setw(6) << AC << "] X0[" << setw(3) << X0 <<

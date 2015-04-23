@@ -58,7 +58,7 @@ void ADD_Instr(instruc instr_data)
 	if( instr_data.am == 0000 )
 	{
 		AC = AC + memory[instr_data.addr];
-		trace( "ADD", instr_data, instr_data.addr );
+		trace( "ADD", instr_data );
 	}
 	else if( instr_data.am == 0001 )
 	{
