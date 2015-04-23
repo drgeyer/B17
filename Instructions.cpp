@@ -18,6 +18,8 @@ extern int ALU;
 extern int IR;
 extern int DBUS;
 
+int not_used = 0;
+
 //pass an instruction with the memory address, indexing mode, and op code
 void HALT_Instr(instruc instr_data)
 {
@@ -55,11 +57,13 @@ void ADD_Instr(instruc instr_data)
 {
 	if( instr_data.am == 0000 )
 	{
-		AC + EA;
+		AC = AC + memory[instr_data.addr];
+		trace( "ADD", instr_data, instr_data.addr );
 	}
 	else if( instr_data.am == 0001 )
 	{
-		AC + instr_data.op;
+		AC = AC + instr_data.addr;
+		trace( "ADD", instr_data );
 	}
 	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
 	{
