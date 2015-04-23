@@ -53,7 +53,22 @@ void EM_Instr(instruc instr_data)
 
 void ADD_Instr(instruc instr_data)
 {
-	
+	if( instr_data.am == 0000 )
+	{
+		AC + EA;
+	}
+	else if( instr_data.am == 0001 )
+	{
+		AC + instr_data.op;
+	}
+	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	{
+		UnimplementedAddressing_Mode( instr_data, "ADD" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "ADD" );
+	}
 }
 
 void SUB_Instr(instruc instr_data)
@@ -63,12 +78,12 @@ void SUB_Instr(instruc instr_data)
 
 void CLR_Instr(instruc instr_data)
 {
-	
+	AC = 0;
 }
 
 void COM_Instr(instruc instr_data)
 {
-	
+	AC = ~AC;
 }
 
 void AND_Instr(instruc instr_data)
@@ -106,12 +121,16 @@ void JP_Instr(instruc instr_data)
 	
 }
 
-void UnimplementedAddressing_Mode(instruc instr_data)
+void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)
 {
-	
+	trace( mnemonic, instr_data, EA );
+	cout << "Machine Halted - unimplemented addressing mode";
+	exit( 3 );
 }
 
-void IllegalAddressing_Mode(instruc instr_data)
+void IllegalAddressing_Mode(instruc instr_data, string mnemonic)
 {
-	
+	trace( mnemonic, instr_data, EA );
+	cout << "Machine Halted - illegal addressing mode";
+	exit( 4 );
 }
