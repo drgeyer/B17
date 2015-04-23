@@ -1,8 +1,6 @@
 #include "instruc.h"
 using namespace std;
 
-
-using namespace std;
 //this file requires access to the memory space + all registers
 extern int memory[0xFFF];
 
@@ -18,6 +16,10 @@ extern int AC;
 extern int ALU;
 extern int IR;
 extern int DBUS;
+
+
+void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic);
+void IllegalAddressing_Mode(instruc instr_data, string mnemonic);
 
 int not_used = 0;
 
