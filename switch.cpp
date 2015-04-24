@@ -111,7 +111,7 @@ void switchFunction( instruc instr_data )
 		JP_Instr( instr_data );
 		break;
 	default:
-		trace( "????", instr_data );
+		trace( "???", instr_data );
 		cout << "Machine Halted - undefined opcode" << endl;
 		exit(2);
 		break;
