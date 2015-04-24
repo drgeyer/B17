@@ -1,6 +1,6 @@
 CC=g++
 
-CFLAGS=-c -g -Wall
+CFLAGS=-c -g -Wall -std=c++11
 
 all: globals instructions switch main
 	g++ -o b17 switch.o globals.o instructions.o b17.o instruc.h
