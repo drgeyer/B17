@@ -1,10 +1,10 @@
 #include "instruc.h"
-#include "instructions.cpp"
+#include "Instructions.cpp"
 
-void switchFunction( int oppCode );
+void switchFunction( instruc instr_data );
 
 
-void switchFunction( int oppCode )
+void switchFunction( instruc instr_data )
 {
 	const int HALT = 0x0;
 	const int NOP = 0x1;
@@ -29,9 +29,9 @@ void switchFunction( int oppCode )
 	const int JN  = 0x32;
 	const int JP  = 0x33;
 
+	
 
-
-	switch( oppCode )
+	switch( instr_data.op )
 	{
 	case HALT:
 		HALT_Instr( instr_data );
