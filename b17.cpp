@@ -2,10 +2,9 @@
 #include <iomanip>
 #include <fstream>
 #include "instruc.h"
-#include "switch.cpp";
+#include "switch.cpp"
 
-
-
+void memstep(int startAddress);
 
 //Author: Grant Hill
 //Parses object file and places values in memory
