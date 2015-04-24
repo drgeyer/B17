@@ -40,8 +40,28 @@ int main(int argc, char *argv[])
 
 	//The nextAddress should have the address to start at.
 
+	//We should have some way to deal with branches.
 
-	return 0;
+	while(memory[nextAddress] != 0)
+	{ //The program should halt on its own when the proper instruction is used.
+	//Call this a failsafe or whatever.
+
+		instruc nextInstruc =  parseInstruc(nextAddress);
+		switchFunction(nextInstruc);
+
+		if(nextInstruc.op == J)
+			nextAddress = nextInstruc.addr;
+		else if(nextInstruc.op == JZ && AC == 0)
+			nextAddress = nextInstruc.addr;
+		else if(nextInstruc.op == JN && AC < 0)
+			nextAddress = nextInstruc.addr;
+		else if(nextInstruc.op == JP && AC > 0)
+			nextAddress = nextInstruc.addr;
+		else
+			nextAddress++;
+	}
+
+	return 0; //If the program ends with no halt message, we missed one.
 }
 
 //executeAt function?
