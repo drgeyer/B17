@@ -80,7 +80,24 @@ void ADD_Instr(instruc instr_data)
 
 void SUB_Instr(instruc instr_data)
 {
-	
+	if( instr_data.am == 0000 )
+	{
+		AC = AC - memory[instr_data.addr];
+		trace( "SUB", instr_data );
+	}
+	else if( instr_data.am == 0001 )
+	{
+		AC = AC - instr_data.addr;
+		trace( "SUB", instr_data );
+	}
+	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	{
+		UnimplementedAddressing_Mode( instr_data, "SUB" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "SUB" );
+	}
 }
 
 void CLR_Instr(instruc instr_data)
@@ -95,17 +112,68 @@ void COM_Instr(instruc instr_data)
 
 void AND_Instr(instruc instr_data)
 {
-	
+	if( instr_data.am == 0000 )
+	{
+		AC = AC & memory[instr_data.addr];
+		trace( "AND", instr_data );
+	}
+	else if( instr_data.am == 0001 )
+	{
+		AC = AC & instr_data.addr;
+		trace( "AND", instr_data );
+	}
+	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	{
+		UnimplementedAddressing_Mode( instr_data, "AND" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "AND" );
+	}
 }
 
 void OR_Instr(instruc instr_data)
 {
-	
+	if( instr_data.am == 0000 )
+	{
+		AC = AC | memory[instr_data.addr];
+		trace( "OR", instr_data );
+	}
+	else if( instr_data.am == 0001 )
+	{
+		AC = AC | instr_data.addr;
+		trace( "OR", instr_data );
+	}
+	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	{
+		UnimplementedAddressing_Mode( instr_data, "OR" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "OR" );
+	}
 }
 
 void XOR_Instr(instruc instr_data)
 {
-	
+	if( instr_data.am == 0000 )
+	{
+		AC = AC ^ memory[instr_data.addr];
+		trace( "XOR", instr_data );
+	}
+	else if( instr_data.am == 0001 )
+	{
+		AC = AC ^ instr_data.addr;
+		trace( "XOR", instr_data );
+	}
+	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	{
+		UnimplementedAddressing_Mode( instr_data, "XOR" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "XOR" );
+	}
 }
 
 void J_Instr(instruc instr_data)
