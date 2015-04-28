@@ -1,7 +1,9 @@
 #ifndef INSTRUC_H
 #define INSTRUC_H
 #include <iostream> //Printing trace
+#include <fstream> //To open the .obj file
 #include <string> //For passing strings to trace()
+#include <iomanip> //For std::hex, setw()
 #include <cstdlib> //for exit();
 
 using namespace std;

@@ -1,5 +1,6 @@
-#include <iomanip> //for std::hex, setw()
-#include <fstream> //For opening obj
+#include <iostream>
+#include <iomanip>
+#include <fstream>
 #include "instruc.h"
 #include "switch.cpp"
 
@@ -12,10 +13,10 @@ int main(int argc, char *argv[])
 	ifstream obj;
 	int nextAddress, toRead, nextVal;
 
-	obj.open(argv[1]); //File stuff
+	obj.open(argv[1]);
 
 	if(!obj)
-	{ 
+	{
 		cout << "Could not open " << argv[1] << endl;
 		return -1;
 	}
@@ -34,12 +35,15 @@ int main(int argc, char *argv[])
 				}
 
 		}
-	} //Tested - works well enough
+	}
 
 	//The nextAddress should have the address to start at.
 
+	//We should have some way to deal with branches.
+
 	while(memory[nextAddress] != 0)
 	{ //The program should halt on its own when the proper instruction is used.
+	//Call this a failsafe or whatever.
 
 		instruc nextInstruc =  parseInstruc(nextAddress);
 		switchFunction(nextInstruc);
