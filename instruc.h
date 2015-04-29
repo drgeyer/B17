@@ -16,7 +16,7 @@ struct instruc //Struct to hold the parsed instruction
 
 
 //The 4096-word memory array from Globals.cpp
-extern int memory[0xFFF]; //Init to zero
+extern int memory[0xFFF]; 
 
 //Values for addressing mode constants.
 const int directam = 0;
