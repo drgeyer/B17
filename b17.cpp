@@ -34,6 +34,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
+
+	cout << "Program starts at: " << nextAddress << endl;
 	//The nextAddress should have the address to start at.
 
 	while(memory[nextAddress] != 0)

@@ -1,5 +1,4 @@
 //Declare variables to be used externally by other files
-int memory[0xFFF] = {0};
 int MAR = 0;
 int IC = 0;
 int X0 = 0;
