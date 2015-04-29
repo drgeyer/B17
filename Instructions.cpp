@@ -23,14 +23,14 @@ int not_used = 0;
 //pass an instruction with the memory address, indexing mode, and op code
 void HALT_Instr(instruc instr_data)
 {
-	trace( "HALT", instr_data );
+	trace( "HALT" );
 	cout << "Machine Halted - HALT instruction executed" << endl;
 	exit(0);
 }
 
 void NOP_Instr(instruc instr_data)
 {
-	trace( "NOP", instr_data );
+	trace( "NOP" );
 	return;
 }
 
@@ -40,12 +40,12 @@ void LD_Instr(instruc instr_data)
 	if( instr_data.am == directam )
 	{
 		AC = memory[instr_data.addr];
-		trace( "LD", instr_data );
+		trace( "LD" );
 	}
 	else if( instr_data.am == immedam )
 	{
 		AC = instr_data.addr;
-		trace( "LD", instr_data);
+		trace( "LD");
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
@@ -63,7 +63,7 @@ void ST_Instr(instruc instr_data)
 	if( instr_data.am == directam )
 	{
 		memory[instr_data.addr] = AC;
-		trace( "ST", instr_data );
+		trace( "ST" );
 	}
 	else if( instr_data.am == immedam )
 	{
@@ -86,7 +86,7 @@ void EM_Instr(instruc instr_data)
 		DBUS = AC;
 		AC = memory[instr_data.addr];
 		memory[instr_data.addr] = DBUS;
-		trace( "EM", instr_data );
+		trace( "EM" );
 	}
 	else if( instr_data.am == immedam )
 	{
@@ -107,12 +107,12 @@ void ADD_Instr(instruc instr_data)
 	if( instr_data.am == directam )
 	{
 		AC = AC + memory[instr_data.addr];
-		trace( "ADD", instr_data );
+		trace( "ADD" );
 	}
 	else if( instr_data.am == immedam )
 	{
 		AC = AC + instr_data.addr;
-		trace( "ADD", instr_data );
+		trace( "ADD" );
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
@@ -129,12 +129,12 @@ void SUB_Instr(instruc instr_data)
 	if( instr_data.am == directam )
 	{
 		AC = AC - memory[instr_data.addr];
-		trace( "SUB", instr_data );
+		trace( "SUB" );
 	}
 	else if( instr_data.am == immedam )
 	{
 		AC = AC - instr_data.addr;
-		trace( "SUB", instr_data );
+		trace( "SUB" );
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
@@ -151,14 +151,14 @@ void CLR_Instr(instruc instr_data)
 //No address logic needed.
 	AC = 0;
 
-	trace("CLR", instr_data);
+	trace("CLR");
 }
 
 void COM_Instr(instruc instr_data)
 {
 	AC = ~AC;
 
-	trace("COM", instr_data);
+	trace("COM");
 }
 
 void AND_Instr(instruc instr_data)
@@ -166,12 +166,12 @@ void AND_Instr(instruc instr_data)
 	if( instr_data.am == directam )
 	{
 		AC = AC & memory[instr_data.addr];
-		trace( "AND", instr_data );
+		trace( "AND" );
 	}
 	else if( instr_data.am == immedam )
 	{
 		AC = AC & instr_data.addr;
-		trace( "AND", instr_data );
+		trace( "AND" );
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
@@ -188,12 +188,12 @@ void OR_Instr(instruc instr_data)
 	if( instr_data.am == directam )
 	{
 		AC = AC | memory[instr_data.addr];
-		trace( "OR", instr_data );
+		trace( "OR" );
 	}
 	else if( instr_data.am == immedam )
 	{
 		AC = AC | instr_data.addr;
-		trace( "OR", instr_data );
+		trace( "OR" );
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
@@ -210,12 +210,12 @@ void XOR_Instr(instruc instr_data)
 	if( instr_data.am == directam )
 	{
 		AC = AC ^ memory[instr_data.addr];
-		trace( "XOR", instr_data );
+		trace( "XOR" );
 	}
 	else if( instr_data.am == immedam )
 	{
 		AC = AC ^ instr_data.addr;
-		trace( "XOR", instr_data );
+		trace( "XOR" );
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
@@ -233,7 +233,7 @@ void J_Instr(instruc instr_data)
 
 	if( instr_data.am == directam )
 	{
-		trace( instr_data, "J");
+		trace( "J");
 	}
 	else if( instr_data.am == immedam )
 	{
@@ -257,7 +257,7 @@ void JZ_Instr(instruc instr_data)
  
 	if( instr_data.am == directam )
 	{
-		trace( instr_data, "JZ");
+		trace( "JZ");
 	}
 	else if( instr_data.am == immedam )
 	{
@@ -280,7 +280,7 @@ void JN_Instr(instruc instr_data)
  
 	if( instr_data.am == directam )
 	{
-		trace( instr_data, "JN");
+		trace( "JN");
 	}
 	else if( instr_data.am == immedam )
 	{
@@ -303,7 +303,7 @@ void JP_Instr(instruc instr_data)
  
 	if( instr_data.am == directam )
 	{
-		trace( instr_data, "JP");
+		trace( "JP");
 	}
 	else if( instr_data.am == immedam )
 	{
@@ -321,14 +321,14 @@ void JP_Instr(instruc instr_data)
 
 void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)
 {
-	trace( mnemonic, instr_data );
+	trace( mnemonic );
 	cout << "Machine Halted - unimplemented addressing mode";
 	exit( 3 );
 }
 
 void IllegalAddressing_Mode(instruc instr_data, string mnemonic)
 {
-	trace( mnemonic, instr_data );
+	trace( mnemonic );
 	cout << "Machine Halted - illegal addressing mode";
 	exit( 4 );
 }

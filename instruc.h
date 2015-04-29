@@ -29,7 +29,7 @@ const int indexindirectam = 6;
 //Get these from Globals.cpp
 extern int IC, AC, X0, X1, X2, X3;
 
-void trace(string mnemonic, instruc instruction);
+void trace(string mnemonic);
 
 //Author: Grant Hill
 //Parses the instuction from memory into address, opcode, and mode fields
