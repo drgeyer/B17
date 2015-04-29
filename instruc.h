@@ -35,7 +35,7 @@ void trace(string mnemonic, instruc instruction);
 instruc parseInstruc(int instruction);
 
 
-void switchFunction( instruc instr_data ); //Prototype for switch
+void switchFunction( int nextAddress ); //Prototype for switch
 
 //Opcode constants for other functions
 const int HALT = 0x0;
@@ -61,7 +61,7 @@ const int JZ  = 0x31;
 const int JN  = 0x32;
 const int JP  = 0x33;
 
-//Declare processor instructions
+//Declare processor instruction prototypes
 void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic);
 void IllegalAddressing_Mode(instruc instr_data, string mnemonic);
 void HALT_Instr(instruc instr_data);

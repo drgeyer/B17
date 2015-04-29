@@ -3,8 +3,10 @@
 
 
 	
-void switchFunction( instruc instr_data )
+void switchFunction( int nextAddress )
 {
+
+	instruc instr_data = parseInstruc(memory[nextAddress]);
 
 	switch( instr_data.op )
 	{

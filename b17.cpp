@@ -2,6 +2,7 @@
 #include "instruc.h"
 
 void memstep(int startAddress);
+void printInstruc(instruc instruction);
 
 //Author: Grant Hill
 //Parses object file and places values in memory
@@ -35,15 +36,16 @@ int main(int argc, char *argv[])
 	}
 
 
-	cout << "Program starts at: " << nextAddress << endl;
+	cout << "Program starts at: " << hex <<  nextAddress << endl;
 	//The nextAddress should have the address to start at.
 
-	while(true)
+	while(memory[nextAddress] != 0)
 	{ //The program should halt on its own when the proper instruction is used.
 	//Call this a failsafe or whatever.
 
-		instruc nextInstruc =  parseInstruc(nextAddress);
-		switchFunction(nextInstruc);
+		switchFunction(nextAddress);
+
+		instruc nextInstruc = parseInstruc(memory[nextAddress]);
 
 		if(nextInstruc.op == J) //Branching implementation
 			nextAddress = nextInstruc.addr;
@@ -57,7 +59,6 @@ int main(int argc, char *argv[])
 			nextAddress++;
 	}
 
-	trace( "HALT", parseInstruc(0));
 	return 0; //If the program ends with no halt message, we missed one.
 }
 
@@ -95,7 +96,7 @@ void trace(string mnemonic, instruc instruction)
 			 || instruction.op == 0x2A) //If no addressing mode, print three spaces
 		cout << "   ";
 	else
-		cout << setw(3) << setfill('0') << hex << instruction.addr; //Else, actually print the address
+		cout << setw(3) << setfill(' ') << hex << instruction.addr; //Else, actually print the address
 
 
 	cout << "  " << "AC[" << hex << setw(6) << setfill('0') << AC << "]  X0[" << setw(3) << X0 <<
@@ -120,4 +121,13 @@ instruc parseInstruc(int instruction)
 	struction.addr = struction.addr >> 12; 
 
 	return struction;
+}
+
+
+void printInstruc(instruc instruction)
+{
+	cout << "Addressing mode: " << instruction.am << endl;
+	cout << "Opcode: " << instruction.op << endl;
+	cout << "Address: " << instruction.addr << endl;
+
 }
