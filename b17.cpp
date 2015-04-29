@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 	IC = nextAddress;
 
 	while(true)
-	{
+	{ //Will end when program halts.
 
 		switchFunction();
 
