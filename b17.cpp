@@ -40,8 +40,7 @@ int main(int argc, char *argv[])
 	//The nextAddress should have the address to start at.
 
 	while(memory[nextAddress] != 0)
-	{ //The program should halt on its own when the proper instruction is used.
-	//Call this a failsafe or whatever.
+	{
 
 		switchFunction(nextAddress);
 
