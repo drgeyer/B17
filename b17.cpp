@@ -81,8 +81,10 @@ void memstep(int startAddress)
 }
 
 //Print out trace
-void trace(string mnemonic, instruc instruction)
+void trace(string mnemonic)
 { //Print out each line of trace
+
+	instruc instruction = parseInstruc(memory[IC]);
 
 	cout << hex << setw(3) << setfill('0') << IC << ":  " << setw(6) <<  memory[IC] << "  "
 	 << setw(3) << setfill(' ') << mnemonic	<< "   ";

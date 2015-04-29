@@ -231,7 +231,22 @@ void J_Instr(instruc instr_data)
 { //Most of the jump logic is impemented in main.
 //So these just have to print a trace.
 
-	trace( "J", instr_data);
+	if( instr_data.am == directam )
+	{
+		trace( instr_data, "J");
+	}
+	else if( instr_data.am == immedam )
+	{
+		IllegalAddressing_Mode( instr_data, "J")
+	}
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+	{
+		UnimplementedAddressing_Mode( instr_data, "J" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "J" );
+	}
 	
 }
 
@@ -240,7 +255,22 @@ void JZ_Instr(instruc instr_data)
  //Most of the jump logic is impemented in main.
  //So these just have to print a trace.
  
- 	trace( "JZ", instr_data);	
+	if( instr_data.am == directam )
+	{
+		trace( instr_data, "JZ");
+	}
+	else if( instr_data.am == immedam )
+	{
+		IllegalAddressing_Mode( instr_data, "JZ")
+	}
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+	{
+		UnimplementedAddressing_Mode( instr_data, "JZ" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "JZ" );
+	}
 }
 
 void JN_Instr(instruc instr_data)
@@ -248,7 +278,22 @@ void JN_Instr(instruc instr_data)
  //Most of the jump logic is impemented in main.
  //So these just have to print a trace.
  
- 	trace( "JN", instr_data);	
+	if( instr_data.am == directam )
+	{
+		trace( instr_data, "JN");
+	}
+	else if( instr_data.am == immedam )
+	{
+		IllegalAddressing_Mode( instr_data, "JN")
+	}
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+	{
+		UnimplementedAddressing_Mode( instr_data, "JN" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "JN" );
+	}
 }
 
 void JP_Instr(instruc instr_data)
@@ -256,7 +301,22 @@ void JP_Instr(instruc instr_data)
  //Most of the jump logic is impemented in main.
  //So these just have to print a trace.
  
- 	trace( "JP", instr_data);	
+	if( instr_data.am == directam )
+	{
+		trace( instr_data, "JP");
+	}
+	else if( instr_data.am == immedam )
+	{
+		IllegalAddressing_Mode( instr_data, "JP")
+	}
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+	{
+		UnimplementedAddressing_Mode( instr_data, "JP" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "JP" );
+	}
 }
 
 void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)
