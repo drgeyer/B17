@@ -2,7 +2,6 @@
 #include "instruc.h"
 
 void memstep(int startAddress);
-void printInstruc(instruc instruction);
 
 //Author: Grant Hill
 //Parses object file and places values in memory
@@ -36,7 +35,6 @@ int main(int argc, char *argv[])
 	}
 
 
-	cout << "Program starts at: " << hex <<  nextAddress << endl;
 	//The nextAddress should have the address to start at.
 
 	IC = nextAddress;
@@ -85,10 +83,17 @@ void trace(string mnemonic)
 
 	instruc instruction = parseInstruc(memory[IC]);
 
-	cout << hex << setw(3) << setfill('0') << IC << ":  " << setw(6) <<  memory[IC] << "  "
-	 << setw(3) << setfill(' ') << mnemonic	<< "   ";
+	cout << hex << setw(3) << setfill('0') << IC << ":  " << setw(6) <<  memory[IC] << " "
+	 << setw(4) << setfill(' ') << left << mnemonic	<< " ";
 
-	if(instruction.am == immedam) //If the addressing mode is immediate, print IMM
+	if ( (instruction.op == ST && instruction.am == immedam) || 
+		(instruction.op == EM && instruction.am == immedam) || 
+		(instruction.op == J && instruction.am == immedam) ||
+		(instruction.op == JZ && instruction.am == immedam) ||
+		(instruction.op == JN && instruction.am == immedam) ||
+		(instruction.op == JP && instruction.am == immedam) ) 
+		cout << "???"; //Handle illegal addressing modes by printing ???.
+	else if(instruction.am == immedam) //If the addressing mode is immediate, print IMM
 		cout << "IMM";
 	else if (instruction.op == 0x0 || instruction.op == 0x1 || instruction.op == 0x18
 		 || instruction.op == 0x19 || instruction.op == 0x1A || instruction.op == 0x22
@@ -96,10 +101,10 @@ void trace(string mnemonic)
 			 || instruction.op == 0x2A) //If no addressing mode, print three spaces
 		cout << "   ";
 	else
-		cout << setw(3) << setfill(' ') << hex << instruction.addr; //Else, actually print the address
+		cout << setw(3) << setfill('0') << right << hex << instruction.addr; //Else, actually print the address
 
 
-	cout << "  " << "AC[" << hex << setw(6) << setfill('0') << AC << "]  X0[" << setw(3) << X0 <<
+	cout << right << "  " << "AC[" << hex << setw(6) << setfill('0') << (AC & 0xffffff) << "]  X0[" << setw(3) << X0 <<
 		"]  X1[" << setw(3) <<  X1 << "]  X2[" << setw(3) << X2 << "]  X3[" << setw(3) << X3 << "]" << endl;
 	//And all the registers.
 
@@ -129,6 +134,7 @@ instruc parseInstruc(int instruction)
 
 void printInstruc(instruc instruction)
 {
+	cout << "Index: " << instruction.index << endl;
 	cout << "Addressing mode: " << instruction.am << endl;
 	cout << "Opcode: " << instruction.op << endl;
 	cout << "Address: " << instruction.addr << endl;

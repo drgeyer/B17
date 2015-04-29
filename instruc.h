@@ -36,6 +36,7 @@ void trace(string mnemonic);
 instruc parseInstruc(int instruction);
 
 
+void printInstruc(instruc instruction);
 void switchFunction(  ); //Prototype for switch
 
 //Opcode constants for other functions

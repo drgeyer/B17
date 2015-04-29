@@ -237,7 +237,7 @@ void J_Instr(instruc instr_data)
 	}
 	else if( instr_data.am == immedam )
 	{
-		IllegalAddressing_Mode( instr_data, "J")
+		IllegalAddressing_Mode( instr_data, "J");
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
@@ -261,7 +261,7 @@ void JZ_Instr(instruc instr_data)
 	}
 	else if( instr_data.am == immedam )
 	{
-		IllegalAddressing_Mode( instr_data, "JZ")
+		IllegalAddressing_Mode( instr_data, "JZ");
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
@@ -278,13 +278,14 @@ void JN_Instr(instruc instr_data)
  //Most of the jump logic is impemented in main.
  //So these just have to print a trace.
  
+
 	if( instr_data.am == directam )
 	{
 		trace( "JN");
 	}
 	else if( instr_data.am == immedam )
 	{
-		IllegalAddressing_Mode( instr_data, "JN")
+		IllegalAddressing_Mode( instr_data, "JN");
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
@@ -307,7 +308,7 @@ void JP_Instr(instruc instr_data)
 	}
 	else if( instr_data.am == immedam )
 	{
-		IllegalAddressing_Mode( instr_data, "JP")
+		IllegalAddressing_Mode( instr_data, "JP");
 	}
 	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
