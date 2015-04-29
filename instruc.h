@@ -12,6 +12,7 @@ struct instruc //Struct to hold the parsed instruction
 	int addr;
 	int op;
 	int am;
+	int index;
 };
 
 
@@ -35,7 +36,7 @@ void trace(string mnemonic, instruc instruction);
 instruc parseInstruc(int instruction);
 
 
-void switchFunction( int nextAddress ); //Prototype for switch
+void switchFunction(  ); //Prototype for switch
 
 //Opcode constants for other functions
 const int HALT = 0x0;
