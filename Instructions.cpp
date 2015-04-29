@@ -37,17 +37,17 @@ void NOP_Instr(instruc instr_data)
 void LD_Instr(instruc instr_data)
 {
 	//Do the operation
-	if( instr_data.am == 0000 )
+	if( instr_data.am == directam )
 	{
 		AC = memory[instr_data.addr];
 		trace( "LD", instr_data );
 	}
-	else if( instr_data.am == 0001 )
+	else if( instr_data.am == immedam )
 	{
 		AC = instr_data.addr;
 		trace( "LD", instr_data);
 	}
-	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
 		UnimplementedAddressing_Mode( instr_data, "LD" );
 	}
@@ -56,22 +56,20 @@ void LD_Instr(instruc instr_data)
 		IllegalAddressing_Mode( instr_data, "LD" );
 	}
 	
-	//print the trace of what the instruction does AFTER it has been executed
-	trace("LD", instr_data );
 }
 
 void ST_Instr(instruc instr_data)
 {
-	if( instr_data.am == 0000 )
+	if( instr_data.am == directam )
 	{
 		memory[instr_data.addr] = AC;
 		trace( "ST", instr_data );
 	}
-	else if( instr_data.am == 0001 )
+	else if( instr_data.am == immedam )
 	{
 		IllegalAddressing_Mode( instr_data, "ST" );
 	}
-	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
 		UnimplementedAddressing_Mode( instr_data, "ST" );
 	}
@@ -83,19 +81,18 @@ void ST_Instr(instruc instr_data)
 
 void EM_Instr(instruc instr_data)
 {
-	int swap; //Temp. variable to swap values easily.
-	if( instr_data.am == 0000 )
+	if( instr_data.am == directam )
 	{
-		swap = AC;
+		DBUS = AC;
 		AC = memory[instr_data.addr];
-		memory[instr_data.addr] = swap;
+		memory[instr_data.addr] = DBUS;
 		trace( "EM", instr_data );
 	}
-	else if( instr_data.am == 0001 )
+	else if( instr_data.am == immedam )
 	{
 		IllegalAddressing_Mode( instr_data, "ST" );
 	}
-	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
 		UnimplementedAddressing_Mode( instr_data, "ST" );
 	}
@@ -107,17 +104,17 @@ void EM_Instr(instruc instr_data)
 
 void ADD_Instr(instruc instr_data)
 {
-	if( instr_data.am == 0000 )
+	if( instr_data.am == directam )
 	{
 		AC = AC + memory[instr_data.addr];
 		trace( "ADD", instr_data );
 	}
-	else if( instr_data.am == 0001 )
+	else if( instr_data.am == immedam )
 	{
 		AC = AC + instr_data.addr;
 		trace( "ADD", instr_data );
 	}
-	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
 		UnimplementedAddressing_Mode( instr_data, "ADD" );
 	}
@@ -129,17 +126,17 @@ void ADD_Instr(instruc instr_data)
 
 void SUB_Instr(instruc instr_data)
 {
-	if( instr_data.am == 0000 )
+	if( instr_data.am == directam )
 	{
 		AC = AC - memory[instr_data.addr];
 		trace( "SUB", instr_data );
 	}
-	else if( instr_data.am == 0001 )
+	else if( instr_data.am == immedam )
 	{
 		AC = AC - instr_data.addr;
 		trace( "SUB", instr_data );
 	}
-	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
 		UnimplementedAddressing_Mode( instr_data, "SUB" );
 	}
@@ -166,17 +163,17 @@ void COM_Instr(instruc instr_data)
 
 void AND_Instr(instruc instr_data)
 {
-	if( instr_data.am == 0000 )
+	if( instr_data.am == directam )
 	{
 		AC = AC & memory[instr_data.addr];
 		trace( "AND", instr_data );
 	}
-	else if( instr_data.am == 0001 )
+	else if( instr_data.am == immedam )
 	{
 		AC = AC & instr_data.addr;
 		trace( "AND", instr_data );
 	}
-	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
 		UnimplementedAddressing_Mode( instr_data, "AND" );
 	}
@@ -188,17 +185,17 @@ void AND_Instr(instruc instr_data)
 
 void OR_Instr(instruc instr_data)
 {
-	if( instr_data.am == 0000 )
+	if( instr_data.am == directam )
 	{
 		AC = AC | memory[instr_data.addr];
 		trace( "OR", instr_data );
 	}
-	else if( instr_data.am == 0001 )
+	else if( instr_data.am == immedam )
 	{
 		AC = AC | instr_data.addr;
 		trace( "OR", instr_data );
 	}
-	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
 		UnimplementedAddressing_Mode( instr_data, "OR" );
 	}
@@ -210,17 +207,17 @@ void OR_Instr(instruc instr_data)
 
 void XOR_Instr(instruc instr_data)
 {
-	if( instr_data.am == 0000 )
+	if( instr_data.am == directam )
 	{
 		AC = AC ^ memory[instr_data.addr];
 		trace( "XOR", instr_data );
 	}
-	else if( instr_data.am == 0001 )
+	else if( instr_data.am == immedam )
 	{
 		AC = AC ^ instr_data.addr;
 		trace( "XOR", instr_data );
 	}
-	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
 	{
 		UnimplementedAddressing_Mode( instr_data, "XOR" );
 	}
@@ -234,7 +231,22 @@ void J_Instr(instruc instr_data)
 { //Most of the jump logic is impemented in main.
 //So these just have to print a trace.
 
-	trace( "J", instr_data);
+	if( instr_data.am == directam )
+	{
+		trace( instr_data, "J");
+	}
+	else if( instr_data.am == immedam )
+	{
+		IllegalAddressing_Mode( instr_data, "J")
+	}
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+	{
+		UnimplementedAddressing_Mode( instr_data, "J" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "J" );
+	}
 	
 }
 
@@ -243,7 +255,22 @@ void JZ_Instr(instruc instr_data)
  //Most of the jump logic is impemented in main.
  //So these just have to print a trace.
  
- 	trace( "JZ", instr_data);	
+	if( instr_data.am == directam )
+	{
+		trace( instr_data, "JZ");
+	}
+	else if( instr_data.am == immedam )
+	{
+		IllegalAddressing_Mode( instr_data, "JZ")
+	}
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+	{
+		UnimplementedAddressing_Mode( instr_data, "JZ" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "JZ" );
+	}
 }
 
 void JN_Instr(instruc instr_data)
@@ -251,7 +278,22 @@ void JN_Instr(instruc instr_data)
  //Most of the jump logic is impemented in main.
  //So these just have to print a trace.
  
- 	trace( "JN", instr_data);	
+	if( instr_data.am == directam )
+	{
+		trace( instr_data, "JN");
+	}
+	else if( instr_data.am == immedam )
+	{
+		IllegalAddressing_Mode( instr_data, "JN")
+	}
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+	{
+		UnimplementedAddressing_Mode( instr_data, "JN" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "JN" );
+	}
 }
 
 void JP_Instr(instruc instr_data)
@@ -259,7 +301,22 @@ void JP_Instr(instruc instr_data)
  //Most of the jump logic is impemented in main.
  //So these just have to print a trace.
  
- 	trace( "JP", instr_data);	
+	if( instr_data.am == directam )
+	{
+		trace( instr_data, "JP");
+	}
+	else if( instr_data.am == immedam )
+	{
+		IllegalAddressing_Mode( instr_data, "JP")
+	}
+	else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+	{
+		UnimplementedAddressing_Mode( instr_data, "JP" );
+	}
+	else
+	{
+		IllegalAddressing_Mode( instr_data, "JP" );
+	}
 }
 
 void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)

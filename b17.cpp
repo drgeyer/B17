@@ -39,30 +39,29 @@ int main(int argc, char *argv[])
 	cout << "Program starts at: " << hex <<  nextAddress << endl;
 	//The nextAddress should have the address to start at.
 
-	while(memory[nextAddress] != 0)
+	IC = nextAddress;
+
+	while(true)
 	{
 
-		switchFunction(nextAddress);
+		switchFunction();
 
-		instruc nextInstruc = parseInstruc(memory[nextAddress]);
+		instruc nextInstruc = parseInstruc(memory[IC]);
 
 		if(nextInstruc.op == J) //Branching implementation
-			nextAddress = nextInstruc.addr;
+			IC = nextInstruc.addr;
 		else if(nextInstruc.op == JZ && AC == 0)
-			nextAddress = nextInstruc.addr;
+			IC = nextInstruc.addr;
 		else if(nextInstruc.op == JN && AC < 0)
-			nextAddress = nextInstruc.addr;
+			IC = nextInstruc.addr;
 		else if(nextInstruc.op == JP && AC > 0)
-			nextAddress = nextInstruc.addr;
+			IC = nextInstruc.addr;
 		else
-			nextAddress++;
+			IC++;
 	}
 
 	return 0; //If the program ends with no halt message, we missed one.
 }
-
-//executeAt function?
-
 
 
 //Author: Grant Hill
@@ -81,11 +80,13 @@ void memstep(int startAddress)
 }
 
 //Print out trace
-void trace(string mnemonic, instruc instruction)
+void trace(string mnemonic)
 { //Print out each line of trace
 
-	cout << hex << setw(3) << setfill('0') << instruction.addr << ":  " << setw(6) <<  memory[IC] << "  "
-	 << setw(3) << mnemonic	<< "   ";
+	instruc instruction = parseInstruc(memory[IC]);
+
+	cout << hex << setw(3) << setfill('0') << IC << ":  " << setw(6) <<  memory[IC] << "  "
+	 << setw(3) << setfill(' ') << mnemonic	<< "   ";
 
 	if(instruction.am == immedam) //If the addressing mode is immediate, print IMM
 		cout << "IMM";
@@ -109,11 +110,14 @@ instruc parseInstruc(int instruction)
 	instruc struction; //Allocate a structure to hold the extracted parts
 
 	//Declare bitmasks
-	int addmodemask = 0x3F; //111111 in binary
+	int indexmask = 0x3;
+	int addmodemask = 0x3C; //111100 in binary
 	int opmask = 0xFC0;
 	int addrmask = 0xFFF000;
 
+	struction.index = indexmask & instruction;
 	struction.am = addmodemask & instruction;
+	struction.am = struction.am >> 2;
 	struction.op = opmask & instruction;
 	struction.op = struction.op >> 6; //Shift right after the mask is applied
 	struction.addr = addrmask & instruction;

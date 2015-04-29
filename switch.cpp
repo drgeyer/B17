@@ -1,12 +1,9 @@
 #include "instruc.h"
 
-
-
-	
-void switchFunction( int nextAddress )
+void switchFunction()
 {
 
-	instruc instr_data = parseInstruc(memory[nextAddress]);
+	instruc instr_data = parseInstruc(memory[IC]);
 
 	switch( instr_data.op )
 	{
