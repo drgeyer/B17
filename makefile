@@ -1,18 +1,18 @@
 CC=g++
 
-CFLAGS=-c -g -Wall -std=c++11
+CFLAGS=-c -g -Wall 
 
 all: globals instructions switch main
-	g++ -o b17  b17.cpp instruc.h switch.o globals.o instructions.o
+	${CC} -o b17 instruc.h  switch.o Globals.o Instructions.o b17.o
 
 globals:
-	${CC} ${CFLAGS} Globals.cpp -o globals.o
+	${CC} ${CFLAGS} Globals.cpp -o Globals.o
 
 instructions:
-	${CC} ${CFLAGS} Instructions.cpp -o instructions.o
+	${CC} ${CFLAGS} Instructions.cpp -o Instructions.o
 
 switch:
-	${CC} ${CFLAGS} switch.cpp -o switch.o
+	${CC} ${CFLAGS} switch.cpp  -o switch.o
 
 main:
 	${CC} ${CFLAGS} b17.cpp -o b17.o

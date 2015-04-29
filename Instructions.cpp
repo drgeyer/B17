@@ -1,9 +1,6 @@
 #include "instruc.h"
-using namespace std;
 
-//this file requires access to the memory space + all registers
-extern int memory[0xFFF];
-
+//Requires all registers
 extern int MAR;
 extern int IC;
 extern int X0;
@@ -37,9 +34,9 @@ void NOP_Instr(instruc instr_data)
 	return;
 }
 
-void LD_Instr(void)
+void LD_Instr(instruc instr_data)
 {
-	instruc instr_data = parseInstruc(memory[IC]);
+	AC = memory[instr_data.addr];
 	//Do the operation 
 	
 	//print the trace of what the instruction does AFTER it has been executed

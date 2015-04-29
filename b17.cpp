@@ -1,8 +1,5 @@
-#include <iostream>
-#include <iomanip>
-#include <fstream>
+#include <fstream> //For reading .obj
 #include "instruc.h"
-#include "switch.cpp"
 
 void memstep(int startAddress);
 
@@ -39,8 +36,6 @@ int main(int argc, char *argv[])
 
 	//The nextAddress should have the address to start at.
 
-	//We should have some way to deal with branches.
-
 	while(memory[nextAddress] != 0)
 	{ //The program should halt on its own when the proper instruction is used.
 	//Call this a failsafe or whatever.
@@ -48,7 +43,7 @@ int main(int argc, char *argv[])
 		instruc nextInstruc =  parseInstruc(nextAddress);
 		switchFunction(nextInstruc);
 
-		if(nextInstruc.op == J)
+		if(nextInstruc.op == J) //Branching implementation
 			nextAddress = nextInstruc.addr;
 		else if(nextInstruc.op == JZ && AC == 0)
 			nextAddress = nextInstruc.addr;
@@ -82,3 +77,44 @@ void memstep(int startAddress)
 
 }
 
+//Print out trace
+void trace(string mnemonic, instruc instruction)
+{ //Print out each line of trace
+
+	cout << hex << instruction.addr << ":  " << memory[IC] << "  " << mnemonic
+		<< "\t";
+
+	if(instruction.am == immedam) //If the addressing mode is immediate, print IMM
+		cout << "IMM";
+	else if (instruction.op == 0x0 || instruction.op == 0x1 || instruction.op == 0x18
+		 || instruction.op == 0x19 || instruction.op == 0x1A || instruction.op == 0x22
+		  || instruction.op == 0x23 || instruction.op == 0x28 || instruction.op == 0x29
+			 || instruction.op == 0x2A) //If no addressing mode, print three spaces
+		cout << "   ";
+	else
+		cout << hex << instruction.addr; //Else, actually print the address
+
+
+	cout << "  " << "AC[" << hex << setw(6) << AC << "] X0[" << setw(3) << X0 <<
+		"] X1[" << X1 << "] X2[" << X2 << "] X3[" << X3 << "]" << endl;
+	//And all the registers.
+
+}
+
+instruc parseInstruc(int instruction)
+{
+	instruc struction; //Allocate a structure to hold the extracted parts
+
+	//Declare bitmasks
+	int addmodemask = 63; //111111 in binary
+	int opmask = 0xFC0;
+	int addrmask = 0xFFF000;
+
+	struction.am = addmodemask & instruction;
+	struction.op = opmask & instruction;
+	struction.op = struction.op >> 6; //Shift right after the mask is applied
+	struction.addr = addrmask & instruction;
+	struction.addr = struction.addr >> 12; 
+
+	return struction;
+}
