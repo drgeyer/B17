@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 	cout << "Program starts at: " << nextAddress << endl;
 	//The nextAddress should have the address to start at.
 
-	while(memory[nextAddress] != 0)
+	while(true)
 	{ //The program should halt on its own when the proper instruction is used.
 	//Call this a failsafe or whatever.
 
@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 			nextAddress++;
 	}
 
+	trace( "HALT", parseInstruc(0));
 	return 0; //If the program ends with no halt message, we missed one.
 }
 
@@ -83,8 +84,8 @@ void memstep(int startAddress)
 void trace(string mnemonic, instruc instruction)
 { //Print out each line of trace
 
-	cout << hex << instruction.addr << ":  " << memory[IC] << "  " << mnemonic
-		<< "\t";
+	cout << hex << setw(3) << setfill('0') << instruction.addr << ":  " << setw(6) <<  memory[IC] << "  "
+	 << setw(3) << mnemonic	<< "   ";
 
 	if(instruction.am == immedam) //If the addressing mode is immediate, print IMM
 		cout << "IMM";
@@ -94,11 +95,11 @@ void trace(string mnemonic, instruc instruction)
 			 || instruction.op == 0x2A) //If no addressing mode, print three spaces
 		cout << "   ";
 	else
-		cout << hex << instruction.addr; //Else, actually print the address
+		cout << setw(3) << setfill('0') << hex << instruction.addr; //Else, actually print the address
 
 
-	cout << "  " << "AC[" << hex << setw(6) << AC << "] X0[" << setw(3) << X0 <<
-		"] X1[" << X1 << "] X2[" << X2 << "] X3[" << X3 << "]" << endl;
+	cout << "  " << "AC[" << hex << setw(6) << setfill('0') << AC << "]  X0[" << setw(3) << X0 <<
+		"]  X1[" << setw(3) <<  X1 << "]  X2[" << setw(3) << X2 << "]  X3[" << setw(3) << X3 << "]" << endl;
 	//And all the registers.
 
 }
@@ -108,7 +109,7 @@ instruc parseInstruc(int instruction)
 	instruc struction; //Allocate a structure to hold the extracted parts
 
 	//Declare bitmasks
-	int addmodemask = 63; //111111 in binary
+	int addmodemask = 0x3F; //111111 in binary
 	int opmask = 0xFC0;
 	int addrmask = 0xFFF000;
 

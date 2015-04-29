@@ -44,7 +44,7 @@ void LD_Instr(instruc instr_data)
 	}
 	else if( instr_data.am == 0001 )
 	{
-		AC = instr_data.addr
+		AC = instr_data.addr;
 		trace( "LD", instr_data);
 	}
 	else if ( instr_data.am >= 0010 && instr_data.am <= 0110 )

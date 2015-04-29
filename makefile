@@ -2,8 +2,10 @@ CC=g++
 
 CFLAGS=-c -g -Wall 
 
-all: globals instructions switch main
-	${CC} -o b17 instruc.h  switch.o Globals.o Instructions.o b17.o
+all: b17
+
+b17: globals instructions switch main
+	${CC} -g -Wall  instruc.h  switch.o Globals.o Instructions.o b17.o -o b17
 
 globals:
 	${CC} ${CFLAGS} Globals.cpp -o Globals.o
