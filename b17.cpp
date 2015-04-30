@@ -37,13 +37,6 @@ int ALU;
 int IR;
 int DBUS;
 
-//Author: Grant Hill
-//Parses the instuction from memory into address, opcode, and mode fields
-instruc parseInstruc(int instruction);
-
-
-void printInstruc(instruc instruction);
-void switchFunction(  ); //Prototype for switch
 void trace(string mnemonic);
 
 //Opcode constants for other functions
@@ -71,8 +64,8 @@ const int JN  = 0x32;
 const int JP  = 0x33;
 
 //Declare processor instruction prototypes
-void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic);
-void IllegalAddressing_Mode(instruc instr_data, string mnemonic);
+void UnimplementedAddressing_Mode( string mnemonic);
+void IllegalAddressing_Mode( string mnemonic);
 
 //Author: Grant Hill
 //Parses object file and places values in memory
@@ -113,18 +106,18 @@ int main(int argc, char *argv[])
 	while(true)
 	{ //Will end when program halts.
 
-	ABUS = addmodemask & instruction;
+	ABUS = addmodemask & memory[IC];
 	ABUS = ABUS >> 2;
 
 	//Extract opcodes and addresses
 	//Get the instruction
-	IR = opmask & instruction;
+	IR = opmask & memory[IC];
 	IR = IR >> 6; //Shift right after the mask is applied
 	//And the proper memory address
-	MAR = addrmask & instruction;
+	MAR = addrmask & memory[IC];
 	MAR = MAR >> 12; 
 
-	MDR = MDR;
+	MDR = memory[MAR];
 
 	switch( IR )
 	{
@@ -149,11 +142,11 @@ int main(int argc, char *argv[])
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "LD" );
+			UnimplementedAddressing_Mode( "LD" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "LD" );
+			IllegalAddressing_Mode( "LD" );
 		}
 		break;
 	case ST:
@@ -164,15 +157,15 @@ int main(int argc, char *argv[])
 		}
 		else if( ABUS == immedam )
 		{
-			IllegalAddressing_Mode( instr_data, "ST" );
+			IllegalAddressing_Mode( "ST" );
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "ST" );
+			UnimplementedAddressing_Mode( "ST" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "ST" );
+			IllegalAddressing_Mode( "ST" );
 		}
 		break;
 	case EM:
@@ -185,15 +178,15 @@ int main(int argc, char *argv[])
 		}
 		else if( ABUS == immedam )
 		{
-			IllegalAddressing_Mode( instr_data, "ST" );
+			IllegalAddressing_Mode(  "ST" );
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "ST" );
+			UnimplementedAddressing_Mode( "ST" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "ST" );
+			IllegalAddressing_Mode( "ST" );
 		}
 		break;
 	case LDX:
@@ -224,11 +217,11 @@ int main(int argc, char *argv[])
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "ADD" );
+			UnimplementedAddressing_Mode( "ADD" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "ADD" );
+			IllegalAddressing_Mode( "ADD" );
 		}
 		break;
 	case SUB:
@@ -244,11 +237,11 @@ int main(int argc, char *argv[])
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "SUB" );
+			UnimplementedAddressing_Mode(  "SUB" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "SUB" );
+			IllegalAddressing_Mode( "SUB" );
 		}
 		break;
 	case CLR:
@@ -274,11 +267,11 @@ int main(int argc, char *argv[])
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "AND" );
+			UnimplementedAddressing_Mode(  "AND" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "AND" );
+			IllegalAddressing_Mode(  "AND" );
 		}
 		break;
 	case OR:
@@ -294,11 +287,11 @@ int main(int argc, char *argv[])
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "OR" );
+			UnimplementedAddressing_Mode(  "OR" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "OR" );
+			IllegalAddressing_Mode(  "OR" );
 		}
 		break;
 	case XOR:
@@ -315,11 +308,11 @@ int main(int argc, char *argv[])
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "XOR" );
+			UnimplementedAddressing_Mode(  "XOR" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "XOR" );
+			IllegalAddressing_Mode(  "XOR" );
 		} 
 		break;
 	case ADDX:
@@ -346,15 +339,15 @@ int main(int argc, char *argv[])
 		}
 		else if( ABUS == immedam )
 		{
-			IllegalAddressing_Mode( instr_data, "J");
+			IllegalAddressing_Mode(  "J");
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "J" );
+			UnimplementedAddressing_Mode(  "J" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "J" );
+			IllegalAddressing_Mode(  "J" );
 		}
 		break;
 	case JZ:
@@ -366,15 +359,15 @@ int main(int argc, char *argv[])
 		}
 		else if( ABUS == immedam )
 		{
-			IllegalAddressing_Mode( instr_data, "JZ");
+			IllegalAddressing_Mode(  "JZ");
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "JZ" );
+			UnimplementedAddressing_Mode(  "JZ" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "JZ" );
+			IllegalAddressing_Mode(  "JZ" );
 		}
 		break;
 	case JN:
@@ -388,15 +381,15 @@ int main(int argc, char *argv[])
 		}
 		else if( ABUS == immedam )
 		{
-			IllegalAddressing_Mode( instr_data, "JN");
+			IllegalAddressing_Mode(  "JN");
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "JN" );
+			UnimplementedAddressing_Mode(  "JN" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "JN" );
+			IllegalAddressing_Mode(  "JN" );
 		}
 		break;
 	case JP:
@@ -408,15 +401,15 @@ int main(int argc, char *argv[])
 		}
 		else if( ABUS == immedam )
 		{
-			IllegalAddressing_Mode( instr_data, "JP");
+			IllegalAddressing_Mode( "JP");
 		}
 		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
-			UnimplementedAddressing_Mode( instr_data, "JP" );
+			UnimplementedAddressing_Mode( "JP" );
 		}
 		else
 		{
-			IllegalAddressing_Mode( instr_data, "JP" );
+			IllegalAddressing_Mode( "JP" );
 		}
 		break;
 	default:
@@ -427,14 +420,14 @@ int main(int argc, char *argv[])
 	}
 
 
-		if(nextInstruc.op == J) //Branching implementation
-			IC = nextInstruc.addr;
-		else if(nextInstruc.op == JZ && AC == 0)
-			IC = nextInstruc.addr;
-		else if(nextInstruc.op == JN && AC < 0)
-			IC = nextInstruc.addr;
-		else if(nextInstruc.op == JP && AC > 0)
-			IC = nextInstruc.addr;
+		if(IR == J) //Branching implementation
+			IC = MAR;
+		else if(IR == JZ && AC == 0)
+			IC = MAR;
+		else if(IR == JN && AC < 0)
+			IC = MAR;
+		else if(IR == JP && AC > 0)
+			IC = MAR;
 		else
 			IC++;
 	}
@@ -474,14 +467,14 @@ void trace(string mnemonic)
 
 }
 
-void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)
+void UnimplementedAddressing_Mode(string mnemonic)
 {
 	trace( mnemonic );
 	cout << "Machine Halted - unimplemented addressing mode";
 	exit( 3 );
 }
 
-void IllegalAddressing_Mode(instruc instr_data, string mnemonic)
+void IllegalAddressing_Mode(string mnemonic)
 {
 	trace( mnemonic );
 	cout << "Machine Halted - illegal addressing mode";
