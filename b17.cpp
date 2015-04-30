@@ -1,7 +1,84 @@
-#include <fstream> //For reading .obj
-#include "instruc.h"
+#include <iostream> //Printing trace
+#include <string> //For passing strings to trace()
+#include <iomanip> //For std::hex, setw()
+#include <cstdlib> //for exit();
+#include <fstream> //for file
+
+using namespace std;
+
+struct instruc //Struct to hold the parsed instruction
+{
+	int addr;
+	int op;
+	int am;
+	int index;
+};
+
+
+//The 4096-word memory array from Globals.cpp
+int memory[0xFFF]; 
+
+//Values for addressing mode constants.
+const int directam = 0;
+const int immedam = 1;
+const int indexam = 2;
+const int indirectam = 4;
+const int indexindirectam = 6;
+
+//Get these from Globals.cpp
+int MAR;
+int IC;
+int X0;
+int X1;
+int X2;
+int X3;
+int ABUS;
+int MDR;
+int AC;
+int ALU;
+int IR;
+int DBUS;
+
+//Author: Grant Hill
+//Parses the instuction from memory into address, opcode, and mode fields
+instruc parseInstruc(int instruction);
+
+
+void printInstruc(instruc instruction);
+void switchFunction(  ); //Prototype for switch
+void trace(string mnemonic);
+
+//Opcode constants for other functions
+const int HALT = 0x0;
+const int NOP = 0x1;
+const int LD = 0x10;
+const int ST = 0x11;
+const int EM = 0x12;
+const int LDX = 0x18;
+const int STX = 0x19;
+const int EMX = 0x1a;
+const int ADD = 0x20;
+const int SUB = 0x21;
+const int CLR = 0x22;
+const int COM = 0x23;
+const int AND = 0x24;
+const int OR  = 0x25;
+const int XOR = 0x26;
+const int ADDX = 0x28;
+const int SUBX = 0x29;
+const int CLRX = 0x2a;
+const int J   = 0x30;
+const int JZ  = 0x31;
+const int JN  = 0x32;
+const int JP  = 0x33;
+
+//Declare processor instruction prototypes
+void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic);
+void IllegalAddressing_Mode(instruc instr_data, string mnemonic);
 
 void memstep(int startAddress);
+void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic);
+void IllegalAddressing_Mode(instruc instr_data, string mnemonic);
 
 //Author: Grant Hill
 //Parses object file and places values in memory
@@ -42,7 +119,307 @@ int main(int argc, char *argv[])
 	while(true)
 	{ //Will end when program halts.
 
-		switchFunction();
+		instruc instr_data = parseInstruc(memory[IC]);
+
+	switch( instr_data.op )
+	{
+	case HALT:
+		trace( "HALT" );
+		cout << "Machine Halted - HALT instruction executed" << endl;
+		exit(0);
+		break;
+	case NOP:
+		trace( "NOP" );
+		break;
+	case LD:
+		if( instr_data.am == directam )
+		{
+			AC = memory[instr_data.addr];
+			trace( "LD" );
+		}
+		else if( instr_data.am == immedam )
+		{
+			AC = instr_data.addr;
+			trace( "LD");
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "LD" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "LD" );
+		}
+		break;
+	case ST:
+		if( instr_data.am == directam )
+		{
+			memory[instr_data.addr] = AC;
+			trace( "ST" );
+		}
+		else if( instr_data.am == immedam )
+		{
+			IllegalAddressing_Mode( instr_data, "ST" );
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "ST" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "ST" );
+		}
+		break;
+	case EM:
+		if( instr_data.am == directam )
+		{
+			DBUS = AC;
+			AC = memory[instr_data.addr];
+			memory[instr_data.addr] = DBUS;
+			trace( "EM" );
+		}
+		else if( instr_data.am == immedam )
+		{
+			IllegalAddressing_Mode( instr_data, "ST" );
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "ST" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "ST" );
+		}
+		break;
+	case LDX:
+		trace( "LDX" );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
+	case STX:
+		trace( "LDX" );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
+	case EMX:
+		trace( "EMX" );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
+	case ADD:
+		if( instr_data.am == directam )
+		{
+			AC = AC + memory[instr_data.addr];
+			trace( "ADD" );
+		}
+		else if( instr_data.am == immedam )
+		{
+			AC = AC + instr_data.addr;
+			trace( "ADD" );
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "ADD" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "ADD" );
+		}
+		break;
+	case SUB:
+		if( instr_data.am == directam )
+		{
+			AC = AC - memory[instr_data.addr];
+			trace( "SUB" );
+		}
+		else if( instr_data.am == immedam )
+		{
+			AC = AC - instr_data.addr;
+			trace( "SUB" );
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "SUB" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "SUB" );
+		}
+		break;
+	case CLR:
+		//No addressing mode here, so it's ignored.
+		//No address logic needed.
+		AC = 0;
+		trace("CLR");
+		break;
+	case COM:
+		AC = ~AC;
+		trace("COM");
+		break;
+	case AND:
+		if( instr_data.am == directam )
+		{
+			AC = AC & memory[instr_data.addr];
+			trace( "AND" );
+		}
+		else if( instr_data.am == immedam )
+		{
+			AC = AC & instr_data.addr;
+			trace( "AND" );
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "AND" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "AND" );
+		}
+		break;
+	case OR:
+		if( instr_data.am == directam )
+		{
+			AC = AC | memory[instr_data.addr];
+			trace( "OR" );
+		}
+		else if( instr_data.am == immedam )
+		{
+			AC = AC | instr_data.addr;
+			trace( "OR" );
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "OR" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "OR" );
+		}
+		break;
+	case XOR:
+		if( instr_data.am == directam )
+		{
+
+			AC = AC ^ memory[instr_data.addr];
+			trace( "XOR" );
+		}
+		else if( instr_data.am == immedam )
+		{
+			AC = AC ^ instr_data.addr;
+			trace( "XOR" );
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "XOR" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "XOR" );
+		} 
+		break;
+	case ADDX:
+		trace( "ADDX" );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
+	case SUBX:
+		trace( "SUBX" );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
+	case CLRX:
+		trace( "CLRX" );
+		cout << "Machine Halted - unimplemented opcode" << endl;
+		exit(1);
+		break;
+	case J:
+		//Most of the jump logic is impemented in main.
+		//So these just have to print a trace.
+		if( instr_data.am == directam )
+		{
+			trace( "J");
+		}
+		else if( instr_data.am == immedam )
+		{
+			IllegalAddressing_Mode( instr_data, "J");
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "J" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "J" );
+		}
+		break;
+	case JZ:
+		//Most of the jump logic is impemented in main.
+		//So these just have to print a trace.
+		if( instr_data.am == directam )
+		{
+			trace( "JZ");
+		}
+		else if( instr_data.am == immedam )
+		{
+			IllegalAddressing_Mode( instr_data, "JZ");
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "JZ" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "JZ" );
+		}
+		break;
+	case JN:
+		//Most of the jump logic is impemented in main.
+		//So these just have to print a trace.
+ 
+
+		if( instr_data.am == directam )
+		{
+			trace( "JN");
+		}
+		else if( instr_data.am == immedam )
+		{
+			IllegalAddressing_Mode( instr_data, "JN");
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "JN" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "JN" );
+		}
+		break;
+	case JP:
+		 //Most of the jump logic is impemented in main.
+		//So these just have to print a trace.
+ 		if( instr_data.am == directam )
+		{
+			trace( "JP");
+		}
+		else if( instr_data.am == immedam )
+		{
+			IllegalAddressing_Mode( instr_data, "JP");
+		}
+		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		{
+			UnimplementedAddressing_Mode( instr_data, "JP" );
+		}
+		else
+		{
+			IllegalAddressing_Mode( instr_data, "JP" );
+		}
+		break;
+	default:
+		trace( "???" );
+		cout << "Machine Halted - undefined opcode" << endl;
+		exit(2);
+		break;
+	}
 
 		instruc nextInstruc = parseInstruc(memory[IC]);
 
@@ -59,22 +436,6 @@ int main(int argc, char *argv[])
 	}
 
 	return 0; //If the program ends with no halt message, we missed one.
-}
-
-
-//Author: Grant Hill
-//Steps through memory and prints out hex values. Used for testing the object
-//file parser.
-void memstep(int startAddress)
-{
-
-	//Print out memory starting at start address
-	while(memory[startAddress] != 0)
-	{
-		cout << hex << startAddress << " " << hex <<  memory[startAddress] << " ";
-		startAddress++;
-	}
-
 }
 
 //Print out trace
@@ -131,12 +492,16 @@ instruc parseInstruc(int instruction)
 	return struction;
 }
 
-
-void printInstruc(instruc instruction)
+void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)
 {
-	cout << "Index: " << instruction.index << endl;
-	cout << "Addressing mode: " << instruction.am << endl;
-	cout << "Opcode: " << instruction.op << endl;
-	cout << "Address: " << instruction.addr << endl;
+	trace( mnemonic );
+	cout << "Machine Halted - unimplemented addressing mode";
+	exit( 3 );
+}
 
+void IllegalAddressing_Mode(instruc instr_data, string mnemonic)
+{
+	trace( mnemonic );
+	cout << "Machine Halted - illegal addressing mode";
+	exit( 4 );
 }
