@@ -7,13 +7,13 @@
 using namespace std;
 
 
-//Declare bitmasks
+//Declare bitmasks for parsing instructions
 const int indexmask = 0x3;
 const int addmodemask = 0x3C; //111100 in binary
 const int opmask = 0xFC0;
 const int addrmask = 0xFFF000;
 
-//The 4096-word memory array from Globals.cpp
+//The 4096-word memory array
 int memory[0xFFF]; 
 
 //Values for addressing mode constants.
@@ -37,9 +37,8 @@ int ALU;
 int IR;
 int DBUS;
 
-void trace(string mnemonic);
 
-//Opcode constants for other functions
+//Opcode constants 
 const int HALT = 0x0;
 const int NOP = 0x1;
 const int LD = 0x10;
@@ -66,6 +65,7 @@ const int JP  = 0x33;
 //Declare processor instruction prototypes
 void UnimplementedAddressing_Mode( string mnemonic);
 void IllegalAddressing_Mode( string mnemonic);
+void trace(string mnemonic);
 
 //Author: Grant Hill
 //Parses object file and places values in memory
