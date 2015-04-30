@@ -6,14 +6,12 @@
 
 using namespace std;
 
-struct instruc //Struct to hold the parsed instruction
-{
-	int addr;
-	int op;
-	int am;
-	int index;
-};
 
+//Declare bitmasks
+const int indexmask = 0x3;
+const int addmodemask = 0x3C; //111100 in binary
+const int opmask = 0xFC0;
+const int addrmask = 0xFFF000;
 
 //The 4096-word memory array from Globals.cpp
 int memory[0xFFF]; 
@@ -25,7 +23,7 @@ const int indexam = 2;
 const int indirectam = 4;
 const int indexindirectam = 6;
 
-//Get these from Globals.cpp
+//Global registers
 int MAR;
 int IC;
 int X0;
@@ -76,10 +74,6 @@ const int JP  = 0x33;
 void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic);
 void IllegalAddressing_Mode(instruc instr_data, string mnemonic);
 
-void memstep(int startAddress);
-void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic);
-void IllegalAddressing_Mode(instruc instr_data, string mnemonic);
-
 //Author: Grant Hill
 //Parses object file and places values in memory
 int main(int argc, char *argv[])
@@ -119,9 +113,20 @@ int main(int argc, char *argv[])
 	while(true)
 	{ //Will end when program halts.
 
-		instruc instr_data = parseInstruc(memory[IC]);
+	ABUS = addmodemask & instruction;
+	ABUS = ABUS >> 2;
 
-	switch( instr_data.op )
+	//Extract opcodes and addresses
+	//Get the instruction
+	IR = opmask & instruction;
+	IR = IR >> 6; //Shift right after the mask is applied
+	//And the proper memory address
+	MAR = addrmask & instruction;
+	MAR = MAR >> 12; 
+
+	MDR = MDR;
+
+	switch( IR )
 	{
 	case HALT:
 		trace( "HALT" );
@@ -132,17 +137,17 @@ int main(int argc, char *argv[])
 		trace( "NOP" );
 		break;
 	case LD:
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
-			AC = memory[instr_data.addr];
+			AC = MDR;
 			trace( "LD" );
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
-			AC = instr_data.addr;
+			AC = MAR;
 			trace( "LD");
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "LD" );
 		}
@@ -152,16 +157,16 @@ int main(int argc, char *argv[])
 		}
 		break;
 	case ST:
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
-			memory[instr_data.addr] = AC;
+			MDR = AC;
 			trace( "ST" );
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
 			IllegalAddressing_Mode( instr_data, "ST" );
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "ST" );
 		}
@@ -171,18 +176,18 @@ int main(int argc, char *argv[])
 		}
 		break;
 	case EM:
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
 			DBUS = AC;
-			AC = memory[instr_data.addr];
-			memory[instr_data.addr] = DBUS;
+			AC = MDR;
+			MDR = DBUS;
 			trace( "EM" );
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
 			IllegalAddressing_Mode( instr_data, "ST" );
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "ST" );
 		}
@@ -207,17 +212,17 @@ int main(int argc, char *argv[])
 		exit(1);
 		break;
 	case ADD:
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
-			AC = AC + memory[instr_data.addr];
+			AC = AC + MDR;
 			trace( "ADD" );
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
-			AC = AC + instr_data.addr;
+			AC = AC + MAR;
 			trace( "ADD" );
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "ADD" );
 		}
@@ -227,17 +232,17 @@ int main(int argc, char *argv[])
 		}
 		break;
 	case SUB:
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
-			AC = AC - memory[instr_data.addr];
+			AC = AC - MDR;
 			trace( "SUB" );
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
-			AC = AC - instr_data.addr;
+			AC = AC - MAR;
 			trace( "SUB" );
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "SUB" );
 		}
@@ -257,17 +262,17 @@ int main(int argc, char *argv[])
 		trace("COM");
 		break;
 	case AND:
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
-			AC = AC & memory[instr_data.addr];
+			AC = AC & MDR;
 			trace( "AND" );
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
-			AC = AC & instr_data.addr;
+			AC = AC & MAR;
 			trace( "AND" );
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "AND" );
 		}
@@ -277,17 +282,17 @@ int main(int argc, char *argv[])
 		}
 		break;
 	case OR:
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
-			AC = AC | memory[instr_data.addr];
+			AC = AC | MDR;
 			trace( "OR" );
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
-			AC = AC | instr_data.addr;
+			AC = AC | MAR;
 			trace( "OR" );
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "OR" );
 		}
@@ -297,18 +302,18 @@ int main(int argc, char *argv[])
 		}
 		break;
 	case XOR:
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
 
-			AC = AC ^ memory[instr_data.addr];
+			AC = AC ^ MDR;
 			trace( "XOR" );
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
-			AC = AC ^ instr_data.addr;
+			AC = AC ^ MAR;
 			trace( "XOR" );
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "XOR" );
 		}
@@ -335,15 +340,15 @@ int main(int argc, char *argv[])
 	case J:
 		//Most of the jump logic is impemented in main.
 		//So these just have to print a trace.
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
 			trace( "J");
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
 			IllegalAddressing_Mode( instr_data, "J");
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "J" );
 		}
@@ -355,15 +360,15 @@ int main(int argc, char *argv[])
 	case JZ:
 		//Most of the jump logic is impemented in main.
 		//So these just have to print a trace.
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
 			trace( "JZ");
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
 			IllegalAddressing_Mode( instr_data, "JZ");
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "JZ" );
 		}
@@ -377,15 +382,15 @@ int main(int argc, char *argv[])
 		//So these just have to print a trace.
  
 
-		if( instr_data.am == directam )
+		if( ABUS == directam )
 		{
 			trace( "JN");
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
 			IllegalAddressing_Mode( instr_data, "JN");
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "JN" );
 		}
@@ -397,15 +402,15 @@ int main(int argc, char *argv[])
 	case JP:
 		 //Most of the jump logic is impemented in main.
 		//So these just have to print a trace.
- 		if( instr_data.am == directam )
+ 		if( ABUS == directam )
 		{
 			trace( "JP");
 		}
-		else if( instr_data.am == immedam )
+		else if( ABUS == immedam )
 		{
 			IllegalAddressing_Mode( instr_data, "JP");
 		}
-		else if ( instr_data.am >= indexam && instr_data.am <= indexindirectam )
+		else if ( ABUS >= indexam && ABUS <= indexindirectam )
 		{
 			UnimplementedAddressing_Mode( instr_data, "JP" );
 		}
@@ -421,7 +426,6 @@ int main(int argc, char *argv[])
 		break;
 	}
 
-		instruc nextInstruc = parseInstruc(memory[IC]);
 
 		if(nextInstruc.op == J) //Branching implementation
 			IC = nextInstruc.addr;
@@ -442,54 +446,32 @@ int main(int argc, char *argv[])
 void trace(string mnemonic)
 { //Print out each line of trace
 
-	instruc instruction = parseInstruc(memory[IC]);
 
 	cout << hex << setw(3) << setfill('0') << IC << ":  " << setw(6) <<  memory[IC] << " "
 	 << setw(4) << setfill(' ') << left << mnemonic	<< " ";
 
-	if ( (instruction.op == ST && instruction.am == immedam) || 
-		(instruction.op == EM && instruction.am == immedam) || 
-		(instruction.op == J && instruction.am == immedam) ||
-		(instruction.op == JZ && instruction.am == immedam) ||
-		(instruction.op == JN && instruction.am == immedam) ||
-		(instruction.op == JP && instruction.am == immedam) ) 
+	if ( (IR == ST && ABUS == immedam) || 
+		(IR == EM && ABUS == immedam) || 
+		(IR == J && ABUS == immedam) ||
+		(IR == JZ && ABUS == immedam) ||
+		(IR == JN && ABUS == immedam) ||
+		(IR == JP && ABUS == immedam) ) 
 		cout << "???"; //Handle illegal addressing modes by printing ???.
-	else if(instruction.am == immedam) //If the addressing mode is immediate, print IMM
+	else if(ABUS == immedam) //If the addressing mode is immediate, print IMM
 		cout << "IMM";
-	else if (instruction.op == 0x0 || instruction.op == 0x1 || instruction.op == 0x18
-		 || instruction.op == 0x19 || instruction.op == 0x1A || instruction.op == 0x22
-		  || instruction.op == 0x23 || instruction.op == 0x28 || instruction.op == 0x29
-			 || instruction.op == 0x2A) //If no addressing mode, print three spaces
+	else if (IR == 0x0 || IR == 0x1 || IR == 0x18
+		 || IR == 0x19 || IR == 0x1A || IR == 0x22
+		  || IR == 0x23 || IR == 0x28 || IR == 0x29
+			 || IR == 0x2A) //If no addressing mode, print three spaces
 		cout << "   ";
 	else
-		cout << setw(3) << setfill('0') << right << hex << instruction.addr; //Else, actually print the address
+		cout << setw(3) << setfill('0') << right << hex << MAR; //Else, actually print the address
 
 
 	cout << right << "  " << "AC[" << hex << setw(6) << setfill('0') << (AC & 0xffffff) << "]  X0[" << setw(3) << X0 <<
 		"]  X1[" << setw(3) <<  X1 << "]  X2[" << setw(3) << X2 << "]  X3[" << setw(3) << X3 << "]" << endl;
 	//And all the registers.
 
-}
-
-instruc parseInstruc(int instruction)
-{
-	instruc struction; //Allocate a structure to hold the extracted parts
-
-	//Declare bitmasks
-	int indexmask = 0x3;
-	int addmodemask = 0x3C; //111100 in binary
-	int opmask = 0xFC0;
-	int addrmask = 0xFFF000;
-
-	struction.index = indexmask & instruction;
-	struction.am = addmodemask & instruction;
-	struction.am = struction.am >> 2;
-	struction.op = opmask & instruction;
-	struction.op = struction.op >> 6; //Shift right after the mask is applied
-	struction.addr = addrmask & instruction;
-	struction.addr = struction.addr >> 12; 
-
-	return struction;
 }
 
 void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)
