@@ -28,7 +28,7 @@ void switchFunction()
 		exit(1);
 		break;
 	case STX:
-		trace( "LDX" );
+		trace( "STX" );
 		cout << "Machine Halted - unimplemented opcode" << endl;
 		exit(1);
 		break;
