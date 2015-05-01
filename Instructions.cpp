@@ -1,6 +1,8 @@
 #include "instruc.h"
 
-//Requires all registers
+///////////////////////////////////////////////////////////////////////////////
+//		EXTERNAL GLOBAL VARIABLES - REGISTERS
+///////////////////////////////////////////////////////////////////////////////
 extern int MAR;
 extern int IC;
 extern int X0;
@@ -14,13 +16,25 @@ extern int ALU;
 extern int IR;
 extern int DBUS;
 
-
+///////////////////////////////////////////////////////////////////////////////
+//	FUNCTION PROTOTYPES
+///////////////////////////////////////////////////////////////////////////////
 void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic);
 void IllegalAddressing_Mode(instruc instr_data, string mnemonic);
 
 int not_used = 0;
 
-//pass an instruction with the memory address, indexing mode, and op code
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void HALT_Instr(instruc instr_data)
 {
 	trace( "HALT" );
@@ -28,12 +42,34 @@ void HALT_Instr(instruc instr_data)
 	exit(0);
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void NOP_Instr(instruc instr_data)
 {
 	trace( "NOP" );
 	return;
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void LD_Instr(instruc instr_data)
 {
 	//Do the operation
@@ -58,6 +94,17 @@ void LD_Instr(instruc instr_data)
 	
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void ST_Instr(instruc instr_data)
 {
 	if( instr_data.am == directam )
@@ -79,6 +126,17 @@ void ST_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void EM_Instr(instruc instr_data)
 {
 	if( instr_data.am == directam )
@@ -102,6 +160,17 @@ void EM_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void ADD_Instr(instruc instr_data)
 {
 	if( instr_data.am == directam )
@@ -124,6 +193,17 @@ void ADD_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void SUB_Instr(instruc instr_data)
 {
 	if( instr_data.am == directam )
@@ -146,6 +226,17 @@ void SUB_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void CLR_Instr(instruc instr_data)
 { //No addressing mode here, so it's ignored.
 //No address logic needed.
@@ -154,6 +245,17 @@ void CLR_Instr(instruc instr_data)
 	trace("CLR");
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void COM_Instr(instruc instr_data)
 {
 	AC = ~AC;
@@ -161,6 +263,17 @@ void COM_Instr(instruc instr_data)
 	trace("COM");
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void AND_Instr(instruc instr_data)
 {
 	if( instr_data.am == directam )
@@ -183,6 +296,17 @@ void AND_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void OR_Instr(instruc instr_data)
 {
 	if( instr_data.am == directam )
@@ -205,6 +329,17 @@ void OR_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void XOR_Instr(instruc instr_data)
 {
 	if( instr_data.am == directam )
@@ -227,6 +362,17 @@ void XOR_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void J_Instr(instruc instr_data)
 { //Most of the jump logic is impemented in main.
 //So these just have to print a trace.
@@ -250,6 +396,17 @@ void J_Instr(instruc instr_data)
 	
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void JZ_Instr(instruc instr_data)
 {
  //Most of the jump logic is impemented in main.
@@ -273,6 +430,17 @@ void JZ_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void JN_Instr(instruc instr_data)
 {
  //Most of the jump logic is impemented in main.
@@ -297,6 +465,17 @@ void JN_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void JP_Instr(instruc instr_data)
 {
  //Most of the jump logic is impemented in main.
@@ -320,6 +499,17 @@ void JP_Instr(instruc instr_data)
 	}
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)
 {
 	trace( mnemonic );
@@ -327,6 +517,17 @@ void UnimplementedAddressing_Mode(instruc instr_data, string mnemonic)
 	exit( 3 );
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void IllegalAddressing_Mode(instruc instr_data, string mnemonic)
 {
 	trace( mnemonic );

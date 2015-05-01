@@ -1,10 +1,35 @@
+/**************************************************************************************************
+* Program:	B17
+*
+* Authors:	Grant Hill, Dylan Geyer, Johnathan Ackerman
+*
+* Course:	CSC 317 - Computer Organization & Architecture
+*
+* Instructor:	Dr. Karlsson
+*
+* Description:	This program emulates the B17 CPU in software. It is able to read in an object file
+*				into virtual memory, and execute the instruction contained within. Once an instruction
+*				has been executed this program will print out the status of the AC, X0, X1, X2, X3 registers.
+*
+* Usage:	compile: make
+*				run: ./B17
+**************************************************************************************************/
 #include <fstream> //For reading .obj
 #include "instruc.h"
 
 void memstep(int startAddress);
 
-//Author: Grant Hill
-//Parses object file and places values in memory
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 int main(int argc, char *argv[])
 {
 	ifstream obj;
@@ -62,9 +87,17 @@ int main(int argc, char *argv[])
 }
 
 
-//Author: Grant Hill
-//Steps through memory and prints out hex values. Used for testing the object
-//file parser.
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void memstep(int startAddress)
 {
 
@@ -77,7 +110,17 @@ void memstep(int startAddress)
 
 }
 
-//Print out trace
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void trace(string mnemonic)
 { //Print out each line of trace
 
@@ -110,6 +153,17 @@ void trace(string mnemonic)
 
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 instruc parseInstruc(int instruction)
 {
 	instruc struction; //Allocate a structure to hold the extracted parts
@@ -132,6 +186,17 @@ instruc parseInstruc(int instruction)
 }
 
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void printInstruc(instruc instruction)
 {
 	cout << "Index: " << instruction.index << endl;
