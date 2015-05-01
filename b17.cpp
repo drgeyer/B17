@@ -470,13 +470,13 @@ void trace(string mnemonic)
 void UnimplementedAddressing_Mode(string mnemonic)
 {
 	trace( mnemonic );
-	cout << "Machine Halted - unimplemented addressing mode";
+	cout << "Machine Halted - unimplemented addressing mode" << endl;
 	exit( 3 );
 }
 
 void IllegalAddressing_Mode(string mnemonic)
 {
 	trace( mnemonic );
-	cout << "Machine Halted - illegal addressing mode";
+	cout << "Machine Halted - illegal addressing mode" << endl;
 	exit( 4 );
 }
