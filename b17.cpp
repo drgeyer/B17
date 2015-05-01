@@ -90,11 +90,16 @@ void trace(string mnemonic);
 *
 * Authors:	Grant Hill - 40%, Johnathan Ackerman - 30%, Dylan Geyer - 30%
 *
-* Description:	
+* Description:	This function has been made unmodular on purpose to more closely mimic the hardware
+*				of our CPU. This main function handles all of the actual operaiton of the CPU, it 
+*				reads the .obj files into memory, and then begins execution until a halt is found.
+*				This utilizeds our global variable registers in the same way the CPU would in hardware
+*				to perform each instruction so the state of our machine is always easily available to
+*				view.
 *
-* Parameters:	
-*
-* Returns:	
+* Parameters:	argc - number of command line arguments
+*				argv - holds the .obj file containing our instructions
+* Returns:	0 - exit success
 **************************************************************************************************/
 int main(int argc, char *argv[])
 {
@@ -463,15 +468,19 @@ int main(int argc, char *argv[])
 }
 
 /**************************************************************************************************
-* Function:	
+* Function:	trace
 *
-* Authors:	
+* Authors:	Grant Hill - 50%
+*			Dylan Geyer - 25%
+*			Johnathan Ackerman - 25%
 *
-* Description:	
+* Description:	This function prints out the instruction and state of the important registers
+*				to the user. To make things easier the mnemonic for the instruction is passed
+*				in so it does not have to be determined in here.
 *
-* Parameters:	
+* Parameters:	mnemonic - Actual letters representing an instruction (i.e. LD, SUB, ADD...)
 *
-* Returns:	
+* Returns:	none
 **************************************************************************************************/
 void trace(string mnemonic)
 { //Print out each line of trace
@@ -505,15 +514,19 @@ void trace(string mnemonic)
 }
 
 /**************************************************************************************************
-* Function:	
+* Function:	UnimplementedAddressing_Mode
 *
-* Authors:	
+* Authors:	Grant Hill = 34%
+*			Dylan Geyer = 33%
+*			Johnathan Ackerman = 33%
 *
-* Description:	
+* Description:	This function is called whenever an instruction is attempting to use an unimplemented
+*				addressing mode. This just makes sure the proper message is printed to the user, and 
+*				then the program is exited permanently.
 *
-* Parameters:	
+* Parameters:	mnemonic - String containing a word describing the instruction
 *
-* Returns:	
+* Returns:	none
 **************************************************************************************************/
 void UnimplementedAddressing_Mode(string mnemonic)
 {
@@ -525,13 +538,17 @@ void UnimplementedAddressing_Mode(string mnemonic)
 /**************************************************************************************************
 * Function:	
 *
-* Authors:	
+* Authors:	Grant Hill = 34%
+*			Dylan Geyer = 33%
+*			Johnathan Ackerman = 33%
 *
-* Description:	
+* Description:	This function is called whenever an instruction is attempting to use an illegal
+*				addressing mode. This just makes sure the proper message is printed to the user, and 
+*				then the program is exited permanently.
 *
-* Parameters:	
+* Parameters:	mnemonic - String containing a word describing the instruction
 *
-* Returns:	
+* Returns:	none
 **************************************************************************************************/
 void IllegalAddressing_Mode(string mnemonic)
 {
