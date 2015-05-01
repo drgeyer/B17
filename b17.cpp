@@ -1,3 +1,19 @@
+/**************************************************************************************************
+* Program:	B17
+*
+* Authors:	Grant Hill, Dylan Geyer, Johnathan Ackerman
+*
+* Course:	CSC 317 - Computer Organization & Architecture
+*
+* Instructor:	Dr. Karlsson
+*
+* Description:	This program emulates the B17 CPU in software. It is able to read in an object file
+*				into virtual memory, and execute the instruction contained within. Once an instruction
+*				has been executed this program will print out the status of the AC, X0, X1, X2, X3 registers.
+*
+* Usage:	compile: make
+*				run: ./B17
+**************************************************************************************************/
 #include <iostream> //Printing trace
 #include <string> //For passing strings to trace()
 #include <iomanip> //For std::hex, setw()
@@ -5,39 +21,20 @@
 #include <fstream> //for file
 
 using namespace std;
-
-
+///////////////////////////////////////////////////////////////////////////////
+//		CONSTANT DECLARATIONS
+///////////////////////////////////////////////////////////////////////////////
 //Declare bitmasks for parsing instructions
 const int indexmask = 0x3;
 const int addmodemask = 0x3C; //111100 in binary
 const int opmask = 0xFC0;
 const int addrmask = 0xFFF000;
-
-//The 4096-word memory array
-int memory[0xFFF]; 
-
 //Values for addressing mode constants.
 const int directam = 0;
 const int immedam = 1;
 const int indexam = 2;
 const int indirectam = 4;
 const int indexindirectam = 6;
-
-//Global registers
-int MAR;
-int IC;
-int X0;
-int X1;
-int X2;
-int X3;
-int ABUS;
-int MDR;
-int AC;
-int ALU;
-int IR;
-int DBUS;
-
-
 //Opcode constants 
 const int HALT = 0x0;
 const int NOP = 0x1;
@@ -62,13 +59,43 @@ const int JZ  = 0x31;
 const int JN  = 0x32;
 const int JP  = 0x33;
 
-//Declare processor instruction prototypes
+///////////////////////////////////////////////////////////////////////////////
+//		GLOBAL VARIABLES
+///////////////////////////////////////////////////////////////////////////////
+//The 4096-word memory array
+int memory[0xFFF]; 
+//Global registers
+int MAR;
+int IC;
+int X0;
+int X1;
+int X2;
+int X3;
+int ABUS;
+int MDR;
+int AC;
+int ALU;
+int IR;
+int DBUS;
+
+///////////////////////////////////////////////////////////////////////////////
+//		FUNCTION PROTOTYPES
+///////////////////////////////////////////////////////////////////////////////
 void UnimplementedAddressing_Mode( string mnemonic);
 void IllegalAddressing_Mode( string mnemonic);
 void trace(string mnemonic);
 
-//Author: Grant Hill
-//Parses object file and places values in memory
+/**************************************************************************************************
+* Function:	main
+*
+* Authors:	Grant Hill - 40%, Johnathan Ackerman - 30%, Dylan Geyer - 30%
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 int main(int argc, char *argv[])
 {
 	ifstream obj;
@@ -435,7 +462,17 @@ int main(int argc, char *argv[])
 	return 0; //If the program ends with no halt message, we missed one.
 }
 
-//Print out trace
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void trace(string mnemonic)
 { //Print out each line of trace
 
@@ -467,6 +504,17 @@ void trace(string mnemonic)
 
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void UnimplementedAddressing_Mode(string mnemonic)
 {
 	trace( mnemonic );
@@ -474,6 +522,17 @@ void UnimplementedAddressing_Mode(string mnemonic)
 	exit( 3 );
 }
 
+/**************************************************************************************************
+* Function:	
+*
+* Authors:	
+*
+* Description:	
+*
+* Parameters:	
+*
+* Returns:	
+**************************************************************************************************/
 void IllegalAddressing_Mode(string mnemonic)
 {
 	trace( mnemonic );
