@@ -184,7 +184,7 @@ int main(int argc, char *argv[])
 	case ST:
 		if( ABUS == directam )
 		{
-			MDR = AC;
+			memory[MAR] = AC;
 			trace( "ST" );
 		}
 		else if( ABUS == immedam )
@@ -204,8 +204,8 @@ int main(int argc, char *argv[])
 		if( ABUS == directam )
 		{
 			DBUS = AC;
-			AC = MDR;
-			MDR = DBUS;
+			AC = memory[MAR];
+			memory[MAR] = DBUS;
 			trace( "EM" );
 		}
 		else if( ABUS == immedam )
